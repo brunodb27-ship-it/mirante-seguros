@@ -241,6 +241,8 @@ def gravar_ses(S, assinatura):
             bruto = S["nome_cia"].get(c, c)
             nome = limpa_nome(bruto)
             busca = f'"{nome}"'
+        if g.lower() in amig:   # nomes.txt também aceita o código (g:00035 para grupo, c:05070 para empresa)
+            nome, busca = amig[g.lower()]
         grupos.setdefault(g, [g, nome, busca])
         return g
     gl = [gid_de(c) for c in cias_ativas]
@@ -326,6 +328,29 @@ def gravar_ses(S, assinatura):
                 cid[g]["e0"] += r[3]
     cidade = {"ate": meses[-1] if meses else None, "grupos": {str(g): {**{k: v for k, v in x.items() if k != "l"}, "l": dict(x["l"])} for g, x in cid.items() if x["e"] > 0}}
     (DADOS / "cidade.json").write_text(json.dumps(cidade, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    # corrida: prêmio de 12 meses móveis, mês a mês, dos grupos que já estiveram entre os 12 maiores
+    def corrida_de(ids):
+        men = defaultdict(lambda: [0] * n)
+        for lid in ids:
+            for r in por_linha.get(lid, []):
+                men[cias[r[1]][2]][r[0]] += r[3]
+        rol = {}
+        for g, v in men.items():
+            acc, o = 0, []
+            for i in range(n):
+                acc += v[i] - (v[i - 12] if i >= 12 else 0)
+                o.append(acc if i >= 11 else 0)
+            rol[g] = o
+        cand = set()
+        for i in range(11, n):
+            cand |= set(sorted(rol, key=lambda g: -rol[g][i])[:12])
+        cand = sorted(cand, key=lambda g: -rol[g][-1])[:24]
+        return {"g": cand, "s": [rol[g][11:] for g in cand]}
+    ids_todas = [l[0] for l in LINHAS]
+    corrida = {"meses": meses[11:], "linhas": {"todas": corrida_de(ids_todas), "pessoas": corrida_de(["vida", "prestamista", "ap", "pessoas_outros"])}}
+    for lid, _, _, _ in LINHAS:
+        corrida["linhas"][lid] = corrida_de([lid])
+    (DADOS / "corrida.json").write_text(json.dumps(corrida, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     meta = {"atualizado": datetime.now(timezone(timedelta(hours=-3))).strftime("%Y-%m-%d %H:%M"), "ses_ate": meses[-1] if meses else None,
             "assinatura_ses": assinatura, "meses": meses, "unidade": "R$ mil", "linhas": linhas, "ramos": ramos, "cias": cias, "grupos": glist,
             "fonte": "SUSEP · Sistema de Estatísticas (SES), base completa"}
