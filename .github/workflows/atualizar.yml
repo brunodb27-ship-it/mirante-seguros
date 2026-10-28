@@ -1,0 +1,38 @@
+name: Atualizar dados
+
+on:
+  schedule:
+    - cron: "40 9 * * *"   # todo dia às 06:40 (Brasília): notícias sempre; SUSEP só quando a base muda
+  workflow_dispatch:
+    inputs:
+      forcar:
+        description: "Baixar a base da SUSEP mesmo sem mudança"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atualizar
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Atualizar SUSEP e notícias
+        run: python pipeline/atualizar.py ${{ github.event.inputs.forcar == 'true' && '--forcar' || '' }}
+      - name: Gravar no repositório
+        run: |
+          git config user.name "robo-mirante"
+          git config user.email "robo-mirante@users.noreply.github.com"
+          git add docs/data
+          if git diff --cached --quiet; then echo "Nada mudou."; exit 0; fi
+          git commit -m "Dados atualizados $(date -u +%Y-%m-%d)"
+          git push
