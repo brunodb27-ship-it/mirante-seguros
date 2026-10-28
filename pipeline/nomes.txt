@@ -1,0 +1,33 @@
+# Nomes amigáveis dos grupos econômicos da SUSEP e o termo usado para buscar notícias.
+# Formato: nome como vem da SUSEP | nome que aparece no site | termo de busca de notícias
+# Pode editar à vontade. Grupos que não estão aqui usam o próprio nome da SUSEP.
+Talanx Ag | HDI | HDI Seguros OR Yelum Seguros
+Brasil | Banco do Brasil | "BB Seguridade"
+Bbmapfre | BB Seguros (Brasilseg) | Brasilseg OR "BB Seguros" OR "BB Mapfre"
+Bradesco | Bradesco Seguros | "Bradesco Seguros" OR "Bradesco Vida e Previdência"
+Caixa | Caixa Seguridade | "Caixa Seguridade" OR "Caixa Vida e Previdência"
+Itaú Unibanco | Itaú Seguros | "Itaú Seguros" OR "Itaú Vida e Previdência"
+Generalli | Generali | "Generali Brasil" seguros
+Icatu | Icatu | "Icatu Seguros"
+Zurich | Zurich | "Zurich Seguros" OR "Zurich Santander"
+Cardif | Cardif | "BNP Paribas Cardif" OR "Cardif Brasil"
+Porto Seguro | Porto | "Porto Seguro" seguradora OR "Porto Vida"
+SulAmérica | SulAmérica | SulAmérica seguros
+Mapfre | Mapfre | "Mapfre Seguros"
+Tokio Marine | Tokio Marine | "Tokio Marine Seguradora"
+Liberty | Liberty | "Liberty Seguros"
+Chubb | Chubb | "Chubb Seguros" Brasil
+Axa | AXA | "AXA no Brasil" OR "AXA Seguros"
+Santander | Santander Seguros | "Santander Auto" OR "Santander Seguros"
+Unimed | Seguros Unimed | "Seguros Unimed"
+Alfa | Alfa Seguradora | "Alfa Seguradora"
+Capemi | Capemisa | Capemisa
+Banco Pactual | BTG Pactual Seguros | "BTG Pactual" seguros
+Safra | Safra Seguros | "Safra Seguros"
+Sinaf | Sinaf | "Sinaf Seguros"
+Aplub | Aplub | Aplub
+Banestes | Banestes Seguros | "Banestes Seguros"
+J. Malucelli | Junto (J. Malucelli) | "Junto Seguros" OR "J. Malucelli"
+Ubf | UBF | "UBF Seguros"
+Gboex-Confianca | GBOEX | GBOEX
+Grupo Silvio Santos | Liderança (Silvio Santos) | "Liderança Capitalização"
