@@ -176,6 +176,18 @@ tr.foco .barra{background:var(--focus)}
 .como h3{font:650 17px var(--f-disp);margin:22px 0 6px}
 .como p,.como li{color:var(--ink2);max-width:75ch}
 
+
+/* corrida */
+.palco{position:relative;border-radius:24px;overflow:hidden;background:radial-gradient(120% 90% at 85% 100%,#13245A 0%,#081230 55%,#050B1E 100%);box-shadow:var(--shadow);color:#EAF0FF}
+.palco svg{display:block;width:100%}
+.palco-ctl{position:absolute;right:16px;top:14px;display:flex;align-items:center;gap:4px;background:rgba(16,28,60,.6);border:1px solid rgba(160,185,255,.18);border-radius:999px;padding:4px;backdrop-filter:blur(10px)}
+.palco-ctl button{border:0;background:none;color:#9AABD6;border-radius:999px;padding:6px 13px;font:500 13px var(--f-body);cursor:pointer}
+.palco-ctl button.on{background:#EAF0FF;color:#0B1430}
+.palco-ctl input{width:170px;accent-color:#FFB627;margin:0 8px}
+.palco-mes{position:absolute;left:20px;top:16px;font:600 14px var(--f-body);color:#9AABD6}
+.palco .b{cursor:pointer}
+@media (max-width:640px){.palco-ctl{left:12px;right:12px;top:auto;bottom:10px;justify-content:center}.palco-ctl input{width:110px}}
+
 /* cidade */
 .cidade-top{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px;padding:22px 0 14px}
 .cidade-top h1{font:650 clamp(30px,4.4vw,52px)/1.04 var(--f-disp);letter-spacing:-.035em;margin:0;max-width:16ch}
@@ -216,11 +228,11 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:12.5px}
 </head>
 <body>
 <header class="top"><div class="wrap top-in">
-  <a class="marca" href="#" data-aba="cidade" aria-label="Mirante, início">
+  <a class="marca" href="#" data-aba="corrida" aria-label="Mirante, início">
     <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="17" width="6" height="12" rx="2" fill="var(--r4)"/><rect x="10" y="10" width="6" height="19" rx="2" fill="var(--r2)"/><rect x="18" y="4" width="6" height="25" rx="2" fill="var(--focus)"/><rect x="26" y="13" width="4" height="16" rx="2" fill="var(--r5)"/></svg>
     <span>Mirante<small>mercado segurador</small></span></a>
   <nav class="abas" role="tablist">
-    <button role="tab" data-aba="cidade">Cidade</button>
+    <button role="tab" data-aba="corrida">Corrida</button>
     <button role="tab" data-aba="mercado">Mercado</button>
     <button role="tab" data-aba="comparar">Comparar</button>
     <button role="tab" data-aba="seguradora">Seguradora</button>
@@ -235,10 +247,11 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:12.5px}
 <main class="wrap" id="app"><div class="carregando">Carregando os dados da SUSEP…</div></main>
 <footer class="wrap" id="rodape"></footer>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script>
 // ============================ estado ============================
 if(window.Chart){ Chart.defaults.font.family="'IBM Plex Sans',system-ui,sans-serif"; }
-const ST={aba:'cidade',altura:'e',escolha:null,linha:'vida',ramos:null,per:'12m',nivel:'grupo',foco:null,comp:[],ntema:'',nseg:'',segAlvo:null};
+const ST={aba:'corrida',clinha:'todas',altura:'e',escolha:null,linha:'vida',ramos:null,per:'12m',nivel:'grupo',foco:null,comp:[],ntema:'',nseg:'',segAlvo:null};
 const D={meta:null,bal:null,not:null,linhas:{},charts:{}};
 const COMPOSTAS={pessoas:{nome:'Pessoas (todas)',ids:['vida','prestamista','ap','pessoas_outros']},todas:{nome:'Todos os ramos',ids:null}};
 const PESSOAS=['vida','prestamista','ap','pessoas_outros'];
@@ -325,11 +338,75 @@ function filtrosHTML(opts={}){
 }
 function render(){
   Object.values(D.charts).forEach(c=>c&&c.destroy()); D.charts={};
-  const v={cidade:vCidade,mercado:vMercado,comparar:vComparar,seguradora:vSeguradora,noticias:vNoticias,como:vComo}[ST.aba];
+  const v={corrida:vCorrida,cidade:vCidade,mercado:vMercado,comparar:vComparar,seguradora:vSeguradora,noticias:vNoticias,como:vComo}[ST.aba];
   v();
 }
 function rodape(){ const M=D.meta; $('#rodape').innerHTML=`Fonte: ${esc(M.fonte)}. Dados até ${rotMes(M.ses_ate)}, atualizados automaticamente em ${M.atualizado.split(' ')[0].split('-').reverse().join('/')}. Painel independente, sem vínculo com a SUSEP. Valores nominais, sem correção pela inflação.`; }
 
+
+
+// ============================ corrida ============================
+const PAL_C=['#4F6DF5','#E07A5F','#5B8DEF','#3FB8AF','#7A5AF8','#E05A7A','#8EA7F8','#2E9BB8','#B07CFF','#56C596','#F28F6B','#6C7DD8'];
+const slug=n=>n.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\(.*?\)/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const SIGLA=n=>{ const p=n.replace(/\(.*?\)/g,'').split(/\s+/).filter(w=>w&&!/^(de|do|da|e|seguros?|seguradora)$/i.test(w)); return (p.length>1?p[0][0]+p[1][0]:(p[0]||n).slice(0,2)).toUpperCase(); };
+let corrTimer=null;
+async function vCorrida(){
+  const app=$('#app');
+  if(!D.corr){ app.innerHTML='<div class="carregando">Preparando a corrida…</div>'; [D.corr,D.cid]=await Promise.all([getJSON('data/corrida.json').catch(()=>null),D.cid?D.cid:getJSON('data/cidade.json').catch(()=>null)]); if(ST.aba!=='corrida') return; }
+  if(!D.corr){ app.innerHTML='<div class="vazio">A corrida aparece depois da próxima atualização automática.</div>'; return; }
+  const M=D.meta, L=D.corr.linhas[ST.clinha]||D.corr.linhas.todas, meses=D.corr.meses;
+  const ops=[['todas','Todos os ramos'],['vida','Vida'],['prestamista','Prestamista'],['ap','Acidentes pessoais'],['pessoas','Pessoas (todas)'],['auto','Automóvel'],['patrimonial','Patrimonial'],['riscos_fin','Garantia']];
+  app.innerHTML=`<section class="cidade-top"><div><h1>A corrida do mercado</h1><p>Prêmio emitido em 12 meses, mês a mês, de ${rotMes(meses[0])} até ${rotMes(meses[meses.length-1])}. Clique numa barra para ver os números do grupo.</p></div>
+    <div class="linhas" role="group" aria-label="Linha">${ops.map(([k,n])=>`<button class="chip" data-clinha="${k}" aria-pressed="${ST.clinha===k}">${n}</button>`).join('')}</div></section>
+   <div class="palco" id="palco"><div class="palco-mes" id="pmes"></div>
+    <div class="palco-ctl"><button id="pplay" class="on">Pausar</button><button id="pre">Recomeçar</button><input id="prng" type="range" min="0" max="${meses.length-1}" value="0" aria-label="Mês"></div></div>
+   <div id="ficha"></div>`;
+  ST.escolha=null; corrida(L,meses);
+}
+function corrida(L,meses){
+  if(corrTimer){ corrTimer.stop(); corrTimer=null; }
+  const M=D.meta, box=$('#palco'), W=box.clientWidth, mob=W<640, N=10, H=mob?560:600;
+  const P={t:mob?54:64,r:mob?16:150,b:mob?70:40,l:mob?16:Math.min(260,W*.24)};
+  const svg=d3.select(box).insert('svg','.palco-ctl').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
+  const ano=svg.append('text').attr('x',W-24).attr('y',H-P.b-6).attr('text-anchor','end').attr('fill','#16275A').style('font',`800 ${mob?96:200}px 'Bricolage Grotesque',sans-serif`).style('letter-spacing','-.05em');
+  const bh=(H-P.t-P.b)/N, x=d3.scaleLinear().range([P.l,W-P.r]), g=svg.append('g');
+  const defs=svg.append('defs');
+  const cor=k=>k===ST.foco?css('--focus'):PAL_C[L.g.indexOf(k)%PAL_C.length];
+  const nome=k=>M.grupos[k][1];
+  L.g.forEach(k=>defs.append('clipPath').attr('id','cl'+k).append('circle').attr('r',bh*.31));
+  const rng=$('#prng'), btn=$('#pplay'); let i=0, tocando=true;
+  function quadro(j,dur){
+    const dados=L.g.map((k,ix)=>({k,v:L.s[ix][j]||0})).sort((a,b)=>b.v-a.v).slice(0,N); x.domain([0,dados[0].v*1.02||1]);
+    const b=g.selectAll('g.b').data(dados,d=>d.k);
+    const en=b.enter().append('g').attr('class','b').attr('transform',`translate(0,${P.t+N*bh})`);
+    en.append('rect').attr('x',P.l).attr('height',bh*.72).attr('rx',bh*.36).attr('fill',d=>cor(d.k));
+    en.append('text').attr('class','nm').attr('x',P.l-12).attr('y',bh*.36).attr('dy','.35em').attr('text-anchor','end').attr('fill','#EAF0FF').style('font',"600 15px 'IBM Plex Sans',sans-serif").text(d=>mob?'':nome(d.k));
+    const ic=en.append('g').attr('class','ic').attr('transform',`translate(${P.l},${bh*.36})`);
+    ic.append('circle').attr('r',bh*.33).attr('fill','#fff').attr('stroke',d=>cor(d.k)).attr('stroke-width',2.5);
+    ic.append('text').attr('text-anchor','middle').attr('dy','.35em').attr('fill','#0B1430').style('font',`800 ${Math.max(10,bh*.24)}px 'Bricolage Grotesque',sans-serif`).text(d=>SIGLA(nome(d.k)));
+    ic.append('image').attr('x',-bh*.31).attr('y',-bh*.31).attr('width',bh*.62).attr('height',bh*.62).attr('clip-path',d=>`url(#cl${d.k})`).attr('preserveAspectRatio','xMidYMid meet')
+      .attr('href',d=>'logos/'+slug(nome(d.k))+'.png').on('error',function(e,d){ const el=d3.select(this); if(!el.attr('data-svg')){ el.attr('data-svg',1).attr('href','logos/'+slug(nome(d.k))+'.svg'); } else el.remove(); });
+    en.append('text').attr('class','vl').attr('y',bh*.36).attr('dy','.35em').attr('fill','#9AABD6').style('font',`500 ${mob?11.5:13.5}px 'IBM Plex Sans',sans-serif`);
+    en.style('opacity',d=>ST.escolha!=null&&d.k!==ST.escolha?.45:1);
+    en.on('click',(e,d)=>{ parar(); ST.escolha=d.k; g.selectAll('g.b').style('opacity',x=>x.k===d.k?1:.45); $('#ficha').innerHTML=fichaHTML(cidadeDados()); $('#ficha').scrollIntoView({behavior:'smooth',block:'nearest'}); });
+    const all=en.merge(b);
+    all.transition().duration(dur).ease(d3.easeLinear).attr('transform',(d,ix)=>`translate(0,${P.t+ix*bh})`);
+    all.select('rect').transition().duration(dur).ease(d3.easeLinear).attr('width',d=>Math.max(4,x(d.v)-P.l));
+    all.select('.ic').transition().duration(dur).ease(d3.easeLinear).attr('transform',d=>`translate(${x(d.v)},${bh*.36})`);
+    all.select('.vl').transition().duration(dur).ease(d3.easeLinear).attr('x',d=>x(d.v)+bh*.42).tween('text',function(d){ const it=d3.interpolate(+this.dataset.v||0,d.v); this.dataset.v=d.v; return t=>{ this.textContent=(mob?nome(d.k).split(' ')[0]+' ':'')+fV(it(t)); }; });
+    b.exit().transition().duration(dur).ease(d3.easeLinear).attr('transform',`translate(0,${P.t+N*bh+30})`).style('opacity',0).remove();
+    const m=meses[j]; ano.text(m.slice(0,4)); rng.value=j; $('#pmes').textContent=rotMes(m);
+  }
+  const passo=()=>{ if(ST.aba!=='corrida'){ parar(); return; } if(i>=meses.length-1){ parar(); return; } i++; quadro(i,250); };
+  function tocar(){ tocando=true; btn.textContent='Pausar'; btn.classList.add('on'); corrTimer=d3.interval(passo,260); }
+  function parar(){ tocando=false; btn.textContent=i>=meses.length-1?'Repetir':'Continuar'; btn.classList.remove('on'); if(corrTimer){ corrTimer.stop(); corrTimer=null; } }
+  btn.onclick=()=>{ if(tocando) parar(); else { if(i>=meses.length-1){ i=0; quadro(0,300); } tocar(); } };
+  $('#pre').onclick=()=>{ parar(); i=0; quadro(0,300); tocar(); };
+  rng.oninput=()=>{ parar(); i=+rng.value; quadro(i,120); };
+  const reduz=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduz){ i=meses.length-1; quadro(i,0); parar(); } else { quadro(0,0); setTimeout(()=>{ if(ST.aba==='corrida') tocar(); },600); }
+}
+document.addEventListener('click',e=>{ const c=e.target.closest('[data-clinha]'); if(c){ ST.clinha=c.dataset.clinha; vCorrida(); } });
 
 // ============================ cidade ============================
 const ALTURAS={e:'Prêmio total',vida:'Prêmio de vida',lucro:'Lucro em 12 meses'};
@@ -429,7 +506,7 @@ document.addEventListener('click',e=>{
   const p=e.target.closest('[data-predio]'); if(p){ escolhePredio(+p.dataset.predio); return; }
   const al=e.target.closest('[data-altura]'); if(al){ ST.altura=al.dataset.altura; vCidade(); return; }
   const ab=e.target.closest('[data-abrir]'); if(ab){ ST.segAlvo=+ab.dataset.abrir; setAba('seguradora'); return; }
-  const fe=e.target.closest('[data-fechar]'); if(fe){ escolhePredio(ST.escolha); return; }
+  const fe=e.target.closest('[data-fechar]'); if(fe){ if(ST.aba==='corrida'){ ST.escolha=null; $('#ficha').innerHTML=''; d3.selectAll('#palco g.b').style('opacity',1); } else escolhePredio(ST.escolha); return; }
 });
 document.addEventListener('keydown',e=>{ const p=e.target.closest&&e.target.closest('[data-predio]'); if(p&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); escolhePredio(+p.dataset.predio); } });
 
@@ -688,7 +765,7 @@ $('#tema').addEventListener('click',()=>{ const escuro=document.documentElement.
   if(!['12m','ytd'].includes(ST.per)&&!M.meses.some(m=>m.startsWith(ST.per))) ST.per='12m';
   const opts=[...M.grupos.keys()].sort((a,b)=>M.grupos[a][1].localeCompare(M.grupos[b][1],'pt'));
   $('#foco').innerHTML=opts.map(i=>`<option value="${i}" ${i===ST.foco?'selected':''}>${esc(M.grupos[i][1])}</option>`).join('');
-  rodape(); setAba('cidade');
+  rodape(); setAba('corrida');
 })();
 </script>
 </body>
