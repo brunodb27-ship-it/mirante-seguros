@@ -263,8 +263,10 @@ def gravar_ses(S, assinatura):
     for r in ramos_ativos:
         nm = S["nome_ramo"].get(r, r)
         bonito = re.sub(r"\s*\(RUN OFF\)", "", nm, flags=re.I).strip()
-        if bonito.upper() == bonito:
-            bonito = bonito.capitalize()
+        bonito = re.sub(r"^\d{3,4}\s*-\s*", "", bonito)   # a SUSEP às vezes repete o código no nome ("0993 - Vida em Grupo")
+        if bonito.upper() == bonito or bonito.lower() == bonito:
+            bonito = bonito[:1].upper() + bonito[1:].lower()
+            bonito = re.sub(r"\b(efpc|vgbl|pgbl|dpvat|rc|rcf|dpem)\b", lambda m: m.group(1).upper(), bonito, flags=re.I)
         # pessoas: 09xx é coletivo e 13xx é individual (o nome da SUSEP às vezes é igual nos dois)
         if r[:2] == "13" and "indiv" not in bonito.lower():
             bonito += " individual"
@@ -311,9 +313,10 @@ def gravar_ses(S, assinatura):
             anos = {}
             for a in range(2019, y):
                 d = f"{a}12"
-                if d in pm:
-                    anos[str(a)] = {"lucro": round(item(d, "lucro") / 1000), "pl": round(item(d, "pl") / 1000), "emitido": round(item(d, "premio_emitido") / 1000)}
-            balanco[gi[g]] = {"ttm": {k: round(v / 1000) for k, v in ttm.items()}, "pl": round(item(ult, "pl") / 1000), "anos": anos}
+                if d in pm:   # ano fechado: todas as contas (acumuladas até dezembro) e o PL de dezembro
+                    anos[str(a)] = {k: round(item(d, k) / 1000) for k in CONTAS.values()}
+            ytd = {k: round(item(ult, k) / 1000) for k in CONTAS.values()}
+            balanco[gi[g]] = {"ttm": {k: round(v / 1000) for k, v in ttm.items()}, "ytd": ytd, "pl": round(item(ult, "pl") / 1000), "anos": anos}
         balanco = {"ate": ult, "grupos": balanco}
     # cidade: resumo de 12 meses por grupo (prêmio total e por linha, ano anterior), para a aba de abertura
     n = len(meses)

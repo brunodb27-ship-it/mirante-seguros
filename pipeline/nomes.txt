@@ -31,3 +31,19 @@ J. Malucelli | Junto (J. Malucelli) | "Junto Seguros" OR "J. Malucelli"
 Ubf | UBF | "UBF Seguros"
 Gboex-Confianca | GBOEX | GBOEX
 Grupo Silvio Santos | Liderança (Silvio Santos) | "Liderança Capitalização"
+# Pelo código da SUSEP (g: grupo econômico, c: empresa sem grupo)
+g:00035 | Itaú Seguros | "Itaú Seguros" OR "Itaú Vida e Previdência"
+g:00230 | Caixa Seguridade | "Caixa Seguridade" OR "Caixa Vida e Previdência" OR "Caixa Seguradora"
+g:00019 | SulAmérica | SulAmérica seguros
+c:05070 | Zurich Santander Vida | "Zurich Santander"
+c:06564 | Zurich Santander Seguros | "Zurich Santander"
+c:06351 | MetLife | MetLife seguro Brasil
+c:03654 | Sicoob Seguradora | "Sicoob Seguradora"
+c:02101 | MAG Seguros | "MAG Seguros" OR "Mongeral Aegon"
+c:04367 | Prudential | "Prudential do Brasil"
+c:06513 | Chubb | "Chubb" seguros Brasil
+c:05177 | Allianz | "Allianz Seguros"
+c:03476 | XS3 Seguros | "XS3 Seguros"
+c:03646 | Ezze Seguros | "Ezze Seguros"
+c:06653 | Too Seguros | "Too Seguros"
+c:03069 | Pottencial | "Pottencial Seguradora"
