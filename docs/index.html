@@ -311,9 +311,22 @@ nav.abas button{position:relative;z-index:1;transition:color .25s}
 nav.abas.com-pilula button[aria-selected="true"]{background:none}
 @media (prefers-reduced-motion:reduce){nav.abas .pilula{transition:none}}
 /* avatar da seguradora: logo se houver na pasta docs/logos, senão a sigla */
-.lgo{display:inline-grid;place-items:center;flex:none;border-radius:8px;vertical-align:middle;margin-right:9px;object-fit:contain;background:#fff;border:1px solid var(--line)}
-.lgo.sig{font:700 10px/1 var(--f-body);letter-spacing:.02em;color:var(--ink2);background:var(--surface2);border:1px solid var(--line)}
-tr.foco .lgo.sig,.top10 button.f .lgo.sig{box-shadow:inset 0 0 0 2px var(--focus)}
+.lgo{position:relative;display:inline-grid;place-items:center;flex:none;box-sizing:border-box;border-radius:9px;vertical-align:middle;margin-right:10px;background:var(--surface2);border:1px solid var(--line);overflow:hidden}
+.lgo .sg{font:700 10px/1 var(--f-body);letter-spacing:.02em;color:var(--ink2)}
+.lgo img{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;object-fit:contain;opacity:0;transition:opacity .25s}
+.lgo.tem{background:#fff;border-color:rgba(16,42,67,.16)}
+.lgo.tem img{opacity:1}.lgo.tem .sg{visibility:hidden}
+.lgo.red{border-radius:50%}
+tr.foco .lgo,.top10 button.f .lgo{box-shadow:0 0 0 2px var(--focus)}
+.cc .lgo{margin-right:0}
+th.th-seg{text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink);vertical-align:bottom;white-space:normal;min-width:104px}
+.th-in{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.th-in .lgo{margin-right:0}
+.th-in span.n{font-weight:600;line-height:1.25;text-align:right}
+.seg-topo{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.seg-topo .lgo{margin-right:0;border-radius:16px;box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
+.seg-topo .lgo .sg{font-size:30px}
+.ficha-h .lgo{margin-right:0}
 td.nome{max-width:190px}
 #rk-tab th,#rk-tab td{padding-left:6px;padding-right:6px}
 #rk-tab .barra{margin-right:6px}
@@ -345,9 +358,9 @@ tr.sep-est td{padding:14px 8px 6px;border-bottom:1px solid var(--line);font-size
 .selo.neg{background:color-mix(in srgb,var(--down) 13%,transparent)}
 /* cartão em destaque: escolha entre as 10 maiores + mostrador */
 .top10{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
-.top10 button{display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px 3px 4px;font-size:12px;color:var(--ink2);cursor:pointer;max-width:150px}
+.top10 button{display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:3px 10px 3px 4px;font-size:12px;color:var(--ink2);cursor:pointer;max-width:150px}
 .top10 button span.n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.top10 button .lgo{margin-right:6px;border-radius:50%}
+.top10 button .lgo{margin-right:6px;border-radius:6px}
 .top10 button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
 .top10 button.f:not([aria-pressed="true"]){border-color:var(--focus)}
 .card-topo{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -550,18 +563,36 @@ let LOGOS_P=null;
 function carregaLogos(){ return LOGOS_P||(LOGOS_P=_carregaLogos()); }
 async function _carregaLogos(){
   LOGOS={};
-  try{ const c=sessionStorage.getItem('mirante-logos'); if(c){ LOGOS=casaLogos(JSON.parse(c)); return LOGOS; } }catch{}
+  try{ const c=JSON.parse(sessionStorage.getItem('mirante-logos')||'null'); if(c&&c.length){ LOGOS=casaLogos(c); return LOGOS; } }catch{}
   try{ const h=location.hostname.match(/^([^.]+)\.github\.io$/), repo=location.pathname.split('/').filter(Boolean)[0]; if(!h||!repo) return LOGOS;
     const ctl=new AbortController(); setTimeout(()=>ctl.abort(),3000);
     const r=await fetch(`https://api.github.com/repos/${h[1]}/${repo}/contents/docs/logos`,{signal:ctl.signal}); if(!r.ok) return LOGOS;
     const arqs=(await r.json()).map(x=>x.name).filter(n=>/\.(png|svg|jpe?g|webp)$/i.test(n));
-    try{ sessionStorage.setItem('mirante-logos',JSON.stringify(arqs)); }catch{} LOGOS=casaLogos(arqs);
+    try{ if(arqs.length) sessionStorage.setItem('mirante-logos',JSON.stringify(arqs)); }catch{} LOGOS=casaLogos(arqs);
   }catch{} return LOGOS;
 }
 const logoArq=k=>{ if(!LOGOS) return null; if(ST.nivel==='cia') return LOGOS_C[k]||LOGOS[D.meta.cias[k][2]]||null; return LOGOS[k]||null; };
-function avatar(k,tam=24,cor){ const g=ST.nivel==='grupo'?k:D.meta.cias[k][2], nome=nomeEnt(k), st=`width:${tam}px;height:${tam}px`;
-  const arq=logoArq(k); if(arq) return `<img class="lgo" style="${st}" src="logos/${encodeURIComponent(arq)}" alt="" loading="lazy" onerror="this.style.display='none'">`;
-  return `<span class="lgo sig" aria-hidden="true" style="${st};font-size:${Math.max(9,Math.round(tam*.4))}px${cor?`;box-shadow:inset 0 0 0 2px ${cor}`:''}">${esc(SIGLA(nome))}</span>`; }
+// endereços a tentar para o logo: o arquivo casado pelo nome e, sempre, o arquivo com o código (g01230.png, c05185.png)
+const LOGO_RUIM=new Set();
+function logoSrcs(g,cia){ const M=D.meta, o=[];
+  if(cia!=null&&LOGOS_C[cia]) o.push('logos/'+encodeURIComponent(LOGOS_C[cia]));
+  if(cia!=null) o.push('logos/c'+M.cias[cia][0]+'.png');
+  if(LOGOS&&LOGOS[g]) o.push('logos/'+encodeURIComponent(LOGOS[g]));
+  const cod=M.grupos[g][0].replace(':',''); o.push('logos/'+cod+'.png','logos/'+cod+'.svg','logos/'+cod+'.jpg');
+  return [...new Set(o)].filter(u=>!LOGO_RUIM.has(u)); }
+const srcsDe=k=>ST.nivel==='cia'?logoSrcs(D.meta.cias[k][2],k):logoSrcs(k,null);
+// cor de fundo do próprio logo (canto da imagem): a moldura fica preenchida por igual; transparente ou quase branco vira branco
+const COR_LOGO=new Map();
+function corFundo(img,src){ if(COR_LOGO.has(src)) return COR_LOGO.get(src); let c=null;
+  try{ const w=img.naturalWidth||img.width.baseVal.value, h=img.naturalHeight||img.height.baseVal.value, cv=document.createElement('canvas'); cv.width=2; cv.height=1; const g=cv.getContext('2d'); g.imageSmoothingEnabled=false; g.drawImage(img,1,1,2,2,0,0,1,1); g.drawImage(img,w-3,1,2,2,1,0,1,1);
+    const p=g.getImageData(0,0,1,1).data, q=g.getImageData(1,0,1,1).data; if(p[3]>230&&q[3]>230&&Math.abs(p[0]-q[0])+Math.abs(p[1]-q[1])+Math.abs(p[2]-q[2])<40&&!(p[0]>238&&p[1]>238&&p[2]>238)) c=`rgb(${p[0]},${p[1]},${p[2]})`; }catch{}
+  COR_LOGO.set(src,c); return c; }
+function logoOk(img){ const m=img.parentNode; m.classList.add('tem'); const c=corFundo(img,img.getAttribute('src')); if(c) m.style.background=c; }
+function logoErro(img){ LOGO_RUIM.add(img.getAttribute('src')); const r=(img.dataset.alt||'').split('|').filter(Boolean); if(r.length){ img.dataset.alt=r.slice(1).join('|'); img.src=r[0]; } else img.remove(); }
+// moldura de tamanho fixo: o logo entra inteiro, centralizado, sempre no mesmo espaço; sem logo, aparece a sigla
+function logoTile(k,w,h,o={}){ const u=o.grupo?logoSrcs(k,null):srcsDe(k), nome=o.grupo?D.meta.grupos[k][1]:nomeEnt(k), pv=Math.max(2,Math.round(h*.14)), ph=Math.max(3,Math.round(w*.1));
+  return `<span class="lgo${o.red?' red':''}" aria-hidden="true" style="width:${w}px;height:${h}px${o.cor?`;box-shadow:0 0 0 2px ${o.cor}`:''}${o.raio?`;border-radius:${o.raio}px`:''}"><span class="sg" style="font-size:${Math.max(9,Math.round(Math.min(w,h)*.42))}px">${esc(SIGLA(nome))}</span>${u.length?`<img src="${u[0]}" data-alt="${u.slice(1).join('|')}" alt="" style="padding:${o.red?Math.round(h*.2):pv}px ${o.red?Math.round(w*.2):ph}px" onload="logoOk(this)" onerror="logoErro(this)">`:''}</span>`; }
+function avatar(k,tam=24,cor){ return logoTile(k,Math.round(tam*1.6),tam,{cor}); }
 const logoIni=k=>LOGOS&&LOGOS[k]?'logos/'+encodeURIComponent(LOGOS[k]):'logos/'+D.meta.grupos[k][0].replace(':','')+'.png';
 // quebra um nome em no máximo 2 linhas de até n letras
 function quebra(txt,n){ if(txt.length<=n) return [txt]; const w=txt.split(' '); let a='';
@@ -585,12 +616,12 @@ function corrida(L,meses){
   const M=D.meta, box=$('#palco'), W=box.clientWidth, mob=W<640, N=10, H=mob?560:600;
   const P={t:mob?54:64,r:mob?16:150,b:mob?70:40,l:mob?16:Math.min(260,W*.24)};
   const svg=d3.select(box).insert('svg','.palco-ctl').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
-  const ano=svg.append('text').attr('x',W-24).attr('y',H-P.b-6).attr('text-anchor','end').attr('fill','#16275A').style('font',`800 ${mob?96:200}px 'Bricolage Grotesque',sans-serif`).style('letter-spacing','-.05em');
+  const ano=svg.append('text').attr('x',W-24).attr('y',H-P.b-6).attr('text-anchor','end').attr('fill','#16275A').style('font',`700 ${mob?96:200}px 'Poppins','Inter',sans-serif`).style('letter-spacing','-.05em');
   const bh=(H-P.t-P.b)/N, x=d3.scaleLinear().range([P.l,W-P.r]), g=svg.append('g');
   const defs=svg.append('defs');
   const cor=k=>k===ST.foco?css('--focus'):PAL_C[L.g.indexOf(k)%PAL_C.length];
   const nome=k=>M.grupos[k][1];
-  L.g.forEach(k=>defs.append('clipPath').attr('id','cl'+k).append('circle').attr('r',bh*.31));
+  L.g.forEach(k=>defs.append('clipPath').attr('id','cl'+k).append('circle').attr('r',bh*.34-1.5));
   const rng=$('#prng'), btn=$('#pplay'); let i=0, tocando=true;
   function quadro(j,dur){
     const dados=L.g.map((k,ix)=>({k,v:L.s[ix][j]||0})).sort((a,b)=>b.v-a.v).slice(0,N); x.domain([0,dados[0].v*1.02||1]);
@@ -601,15 +632,17 @@ function corrida(L,meses){
     const nm=en.append('text').attr('class','nm').attr('text-anchor','end').attr('fill','#EAF0FF').style('font',"600 14px 'Inter',sans-serif");
     nm.each(function(d){ if(mob) return; const ls=quebra(nome(d.k),Math.max(14,Math.floor((P.l-70)/7.6))), t=d3.select(this);
       ls.forEach((l,ix)=>t.append('tspan').attr('x',P.l-12).attr('y',bh*.36+(ix-(ls.length-1)/2)*16).attr('dy','.35em').text(l)); });
-    if(!mob){ const lg=en.append('image').attr('class','lg').attr('x',function(){ const ts=[...this.parentNode.querySelectorAll('.nm tspan')]; const w=Math.max(0,...ts.map(t=>t.getComputedTextLength())); return Math.max(4,P.l-12-w-40); }).attr('y',bh*.36-15).attr('width',30).attr('height',30).attr('preserveAspectRatio','xMidYMid meet');
-      lg.attr('href',d=>logoIni(d.k)).on('error',function(e,d){ const el=d3.select(this), t=+(el.attr('data-t')||0), cod=M.grupos[d.k][0].replace(':','');
-        const alt=['logos/'+cod+'.svg','logos/'+slug(nome(d.k))+'.png','logos/'+slug(nome(d.k))+'.svg'][t]; if(alt) el.attr('data-t',t+1).attr('href',alt); else el.remove(); }); }
-    const ic=en.append('g').attr('class','ic').attr('transform',`translate(${P.l},${bh*.36})`);
-    ic.append('circle').attr('r',bh*.33).attr('fill','#fff').attr('stroke',d=>cor(d.k)).attr('stroke-width',2.5);
-    ic.append('text').attr('text-anchor','middle').attr('dy','.35em').attr('fill','#0B1430').style('font',`800 ${Math.max(10,bh*.24)}px 'Bricolage Grotesque',sans-serif`).text(d=>SIGLA(nome(d.k)));
-    ic.append('image').attr('x',-bh*.31).attr('y',-bh*.31).attr('width',bh*.62).attr('height',bh*.62).attr('clip-path',d=>`url(#cl${d.k})`).attr('preserveAspectRatio','xMidYMid meet')
-      .attr('href',d=>logoIni(d.k)).on('error',function(e,d){ const el=d3.select(this), t=+(el.attr('data-t')||0), cod=M.grupos[d.k][0].replace(':','');
-      const alt=['logos/'+cod+'.svg','logos/'+slug(nome(d.k))+'.png','logos/'+slug(nome(d.k))+'.svg'][t]; if(alt) el.attr('data-t',t+1).attr('href',alt); else el.remove(); });
+    // logo ao lado do nome: moldura branca de cantos arredondados, sempre do mesmo tamanho
+    const tenta=(sel,ok)=>sel.each(function(d){ const el=d3.select(this), u=logoSrcs(d.k,null); let i=0; if(!u.length){ el.remove(); return; }
+      el.on('load',()=>ok(this,d)).on('error',()=>{ LOGO_RUIM.add(u[i]); i++; if(i<u.length) el.attr('href',u[i]); else el.remove(); }).attr('href',u[0]); });
+    if(!mob){ const TW=56,TH=32, lg=en.append('g').attr('class','lg').style('opacity',0).attr('transform',function(){ const ts=[...this.parentNode.querySelectorAll('.nm tspan')]; const w=Math.max(0,...ts.map(t=>t.getComputedTextLength())); return `translate(${Math.max(4,P.l-12-w-TW-12)},${bh*.36-TH/2})`; });
+      lg.append('rect').attr('width',TW).attr('height',TH).attr('rx',8).attr('fill','#fff');
+      tenta(lg.append('image').attr('x',6).attr('y',5).attr('width',TW-12).attr('height',TH-10).attr('preserveAspectRatio','xMidYMid meet'),(el,d)=>{ const c=corFundo(el,el.getAttribute('href')); if(c) d3.select(el.parentNode).select('rect').attr('fill',c); d3.select(el.parentNode).transition().duration(250).style('opacity',1); }); }
+    // ponta da barra: círculo branco do mesmo tamanho para todos; o logo entra inteiro dentro dele (a sigla some quando o logo carrega)
+    const ic=en.append('g').attr('class','ic').attr('transform',`translate(${P.l},${bh*.36})`), RC=bh*.34, LD=RC*1.5;
+    ic.append('circle').attr('class','fd').attr('r',RC).attr('fill','#fff').attr('stroke',d=>cor(d.k)).attr('stroke-width',2.5);
+    ic.append('text').attr('class','sg').attr('text-anchor','middle').attr('dy','.35em').attr('fill','#0B1430').style('font',`700 ${Math.max(10,bh*.24)}px 'Poppins','Inter',sans-serif`).text(d=>SIGLA(nome(d.k)));
+    tenta(ic.append('image').attr('x',-LD/2).attr('y',-LD/2).attr('width',LD).attr('height',LD).attr('clip-path',d=>`url(#cl${d.k})`).attr('preserveAspectRatio','xMidYMid meet').style('opacity',0),el=>{ const c=corFundo(el,el.getAttribute('href')); if(c) d3.select(el.parentNode).select('.fd').attr('fill',c); d3.select(el).style('opacity',1); d3.select(el.parentNode).select('.sg').remove(); });
     en.append('text').attr('class','vl').attr('y',bh*.36).attr('dy','.35em').attr('fill','#9AABD6').style('font',`500 ${mob?11.5:13.5}px 'Inter',sans-serif`);
     en.style('opacity',d=>ST.escolha!=null&&d.k!==ST.escolha?.45:1);
     en.on('click',(e,d)=>{ parar(); ST.escolha=d.k; g.selectAll('g.b').style('opacity',x=>x.k===d.k?1:.45); $('#ficha').innerHTML=fichaHTML(cidadeDados()); $('#ficha').scrollIntoView({behavior:'smooth',block:'nearest'}); });
@@ -701,7 +734,7 @@ function fichaHTML(todos){
   const L=D.meta.linhas, mix=Object.entries(r.l).sort((a,b)=>b[1]-a[1]).slice(0,6), mx=mix.length?mix[0][1]:1;
   const foco=r.g===ST.foco;
   return `<section class="ficha"><div class="painel"><div class="painel-b" style="padding-top:22px">
-    <div class="ficha-h">${foco?'<span class="pin" style="width:12px;height:12px;border-radius:50%;background:var(--focus);box-shadow:0 0 0 4px var(--focus-soft)"></span>':''}<h2>${esc(r.nome)}</h2></div>
+    <div class="ficha-h">${foco?'<span class="pin" style="width:12px;height:12px;border-radius:50%;background:var(--focus);box-shadow:0 0 0 4px var(--focus-soft)"></span>':''}${logoTile(r.g,76,44,{grupo:true,raio:11})}<h2>${esc(r.nome)}</h2></div>
     <div class="nota">${r.pos}º maior grupo segurador · ${fP(r.share)} do mercado</div>
     <div class="grande">${fV(r.e)}</div><div class="nota">em prêmios nos últimos 12 meses · <span class="${cl(r.cres)}">${fP(r.cres,1,true)}</span> no ano</div>
     <div class="dados">
@@ -791,7 +824,7 @@ function tabelaRank(lista,f,merc){
   const th=(c,cls='')=>`<th class="ord ${cls}" data-ord="${c}" ${o.c===c?`aria-sort="${o.d<0?'descending':'ascending'}"`:''} title="Ordenar por ${ORD[c][0].toLowerCase()}">${ORD[c][0]}<i>${o.c===c?(o.d<0?'▼':'▲'):'▼'}</i></th>`;
   return `<table><thead><tr><th class="l"></th><th class="l">Seguradora</th>${th('emit')}${th('share','l')}${th('cres')}${th('sinist')}${th('comis')}${th('comb')}</tr></thead><tbody>
    ${vis.map(r=>{ const d=r.posB?r.posB-r.pos:null, cb=combDe(r);
-     return `<tr class="${r===f?'foco':''}" data-ent="${r.k}"><td class="l pos-n">${r.pos}${d?`<span class="mov ${d>0?'pos':'neg'}">${d>0?'▲':'▼'}${Math.abs(d)}</span>`:''}</td><td class="l nome" title="${esc(r.nome)}">${avatar(r.k,24)}${esc(r.nome)}</td><td>${fV(r.emit)}</td>
+     return `<tr class="${r===f?'foco':''}" data-ent="${r.k}"><td class="l pos-n">${r.pos}${d?`<span class="mov ${d>0?'pos':'neg'}">${d>0?'▲':'▼'}${Math.abs(d)}</span>`:''}</td><td class="l nome" title="${esc(r.nome)}">${logoTile(r.k,46,28)}${esc(r.nome)}</td><td>${fV(r.emit)}</td>
      <td class="l"><span class="barra" style="width:${Math.max(2,r.share/max*38)}px"></span>${fP(r.share)}</td><td class="${cl(r.cres)}">${fP(r.cres,1,true)}</td><td>${fP(r.sinist,0)}</td><td>${fP(r.comis,0)}</td><td>${ok(cb)?`<span class="selo ${clComb(cb)}">${fP(cb,0)}</span>`:'—'}</td></tr>`; }).join('')}
    <tr style="cursor:default"><td></td><td class="l"><b>Mercado</b></td><td><b>${fV(merc.emit)}</b></td><td class="l">100%</td><td class="${cl(merc.cres)}"><b>${fP(merc.cres,1,true)}</b></td><td><b>${fP(merc.sinist,0)}</b></td><td><b>${fP(merc.comis,0)}</b></td><td><b class="${clComb(combDe(merc))}">${fP(combDe(merc),0)}</b></td></tr>
   </tbody></table>`;
@@ -808,12 +841,12 @@ function acendeMostrador(){ document.querySelectorAll('.mostrador').forEach(m=>{
   const semAnim=matchMedia('(prefers-reduced-motion: reduce)').matches; ls.forEach((l,i)=>{ if(i<n){ if(semAnim) l.classList.add('on'); else setTimeout(()=>l.classList.add('on'),120+i*16); } }); }); }
 function focoCard(f,merc,lista){
   const top=lista.slice(0,10), alvo=(ST.cardK!=null&&lista.find(r=>r.k===ST.cardK))||f||null;
-  const chips=`<div class="top10" role="group" aria-label="Ver uma das 10 maiores">${(f&&!top.includes(f)?[f].concat(top):top).map(r=>`<button type="button" class="${r===f?'f':''}" data-card="${r.k}" aria-pressed="${r===alvo}" title="${esc(r.nome)} · ${r.pos}º">${avatar(r.k,20)}<span class="n">${esc(curtoNome(r.nome))}</span></button>`).join('')}</div>`;
+  const chips=`<div class="top10" role="group" aria-label="Ver uma das 10 maiores">${(f&&!top.includes(f)?[f].concat(top):top).map(r=>`<button type="button" class="${r===f?'f':''}" data-card="${r.k}" aria-pressed="${r===alvo}" title="${esc(r.nome)} · ${r.pos}º">${logoTile(r.k,32,20,{raio:6})}<span class="n">${esc(curtoNome(r.nome))}</span></button>`).join('')}</div>`;
   if(!alvo) return `<section class="painel foco-card"><div class="painel-h"><h2>Seguradora em destaque</h2></div><div class="painel-b">${chips}<p class="nota">${ST.foco==null?'Escolha uma das 10 maiores acima ou defina a seguradora em destaque no topo da página.':'A seguradora em destaque não tem prêmio nesse recorte. Escolha uma das 10 maiores acima.'}</p></div></section>`;
   const linha=(rot,v,m,fmt,menor)=>{ const max=Math.max(v||0,m||0)*1.25||1; const melhor=menor?v<=m:v>=m;
     return `<div class="cmp"><div class="rot"><span>${rot}</span><b class="${ok(v)&&ok(m)?(melhor?'pos':'neg'):''}">${fmt(v)}</b></div><div class="trilho"><i style="width:${Math.min(100,(v||0)/max*100)}%"></i><u style="left:${Math.min(100,(m||0)/max*100)}%"></u></div><div class="leg">mercado: ${fmt(m)}</div></div>`; };
   const g=x=>fP(x,1,true), p0=x=>fP(x,1), cb=combDe(alvo), rs=resDe(alvo);
-  return `<section class="painel foco-card"><div class="painel-h"><div class="titulo">${avatar(alvo.k,30)}<h2>${esc(alvo.nome)}</h2></div><p>${alvo===f?'em destaque':'uma das 10 maiores'}</p></div>
+  return `<section class="painel foco-card"><div class="painel-h"><div class="titulo">${logoTile(alvo.k,72,42,{raio:11})}<h2>${esc(alvo.nome)}</h2></div><p>${alvo===f?'em destaque':'uma das 10 maiores'}</p></div>
    <div class="painel-b">${chips}
    <div class="card-topo"><div><div class="posicao">${alvo.pos}º<small>de ${lista.length}</small></div>
     <div class="nota" style="margin-top:6px">${fP(alvo.share)} do mercado · ${fV(alvo.emit)} em prêmios${alvo.posB?` · era ${alvo.posB}º`:''}</div></div>${mostrador(cb)}</div>
@@ -887,19 +920,18 @@ function icJanelas(T,semente,ambar){
 function icBrilho(T,cor){ const c=document.createElement('canvas'); c.width=c.height=128; const g=c.getContext('2d'), gr=g.createRadialGradient(64,64,0,64,64,64);
   gr.addColorStop(0,cor); gr.addColorStop(.35,cor.replace(/[\d.]+\)$/,'0.35)')); gr.addColorStop(1,cor.replace(/[\d.]+\)$/,'0)')); g.fillStyle=gr; g.fillRect(0,0,128,128); const t=new T.CanvasTexture(c); t.colorSpace=T.SRGBColorSpace; return t; }
 // letreiro no topo: o logo (se houver arquivo em docs/logos) ou o nome
-function icLetreiro(T,nome,arq,foco,pronto){
+function icLetreiro(T,nome,srcs,foco,pronto){
   const W=640,H=240, c=document.createElement('canvas'); c.width=W; c.height=H; const g=c.getContext('2d'), tex=new T.CanvasTexture(c); tex.colorSpace=T.SRGBColorSpace; tex.anisotropy=8;
   const caixa=(fundo)=>{ g.clearRect(0,0,W,H); g.fillStyle=fundo; g.beginPath(); g.roundRect(4,4,W-8,H-8,26); g.fill(); g.lineWidth=8; g.strokeStyle=foco?'#FFB627':'rgba(255,255,255,.85)'; g.stroke(); };
   const texto=()=>{ caixa('#FFFFFF'); let fs=92; g.textAlign='center'; g.textBaseline='middle'; g.fillStyle='#0D1B2A';
     do{ g.font=`700 ${fs}px Poppins,Inter,system-ui,sans-serif`; fs-=4; }while(g.measureText(nome).width>W-70&&fs>30); g.fillText(nome,W/2,H/2+4); tex.needsUpdate=true; };
   texto();
-  if(arq){ const im=new Image(); im.onload=()=>{ try{
+  if(srcs&&srcs.length){ let qi=0; const im=new Image(); im.onerror=()=>{ LOGO_RUIM.add(srcs[qi]); qi++; if(qi<srcs.length) im.src=srcs[qi]; }; im.onload=()=>{ try{
       // fundo do letreiro = cor do canto do logo (logo com fundo próprio fica inteiro); transparente vira branco
       const t=document.createElement('canvas'); t.width=t.height=4; const tg=t.getContext('2d'); tg.drawImage(im,0,0,im.naturalWidth,im.naturalHeight,0,0,4,4); // amostra reduzida
-      const a=document.createElement('canvas'); a.width=im.naturalWidth; a.height=im.naturalHeight; const ag=a.getContext('2d'); ag.drawImage(im,0,0); const p=ag.getImageData(2,2,1,1).data;
-      caixa(p[3]>200?`rgb(${p[0]},${p[1]},${p[2]})`:'#FFFFFF');
+      caixa(corFundo(im,im.src)||'#FFFFFF');
       const m=30, s=Math.min((W-2*m)/im.naturalWidth,(H-2*m)/im.naturalHeight), w=im.naturalWidth*s, h=im.naturalHeight*s; g.imageSmoothingQuality='high'; g.drawImage(im,(W-w)/2,(H-h)/2,w,h); tex.needsUpdate=true; pronto&&pronto(); }catch{ texto(); } };
-    im.src='logos/'+encodeURIComponent(arq); }
+    im.src=srcs[0]; }
   return tex;
 }
 function icPredio(T,i,h,foco,tex,brilho){
@@ -977,7 +1009,7 @@ async function icInicia(lista,f){
     const x=i*PASSO-larg/2+(fora&&i===n-1?1.6:0), z=(i%2?-1.25:.85); g.position.set(x,0,z); g.userData.r=r;
     // letreiro
     const sw=Math.min(3.3,Math.max(2.7,g.userData.w*1.12)), sh=sw*.375, yS=g.userData.topo+.55+sh/2;
-    const t=icLetreiro(T,curtoNome(r.nome),logoArq(r.k),foco,()=>{ if(IC) IC.sujo=true; });
+    const t=icLetreiro(T,curtoNome(r.nome),srcsDe(r.k),foco,()=>{ if(IC) IC.sujo=true; });
     const pl=new T.Mesh(new T.PlaneGeometry(sw,sh),new T.MeshBasicMaterial({map:t,transparent:true,toneMapped:false})); pl.position.set(0,yS,g.userData.d*.32+.07); g.add(pl);
     const fr=new T.Mesh(new T.BoxGeometry(sw+.1,sh+.1,.1),new T.MeshStandardMaterial({color:0x0C1728,roughness:.6})); fr.position.set(0,yS,g.userData.d*.32); g.add(fr);
     [-1,1].forEach(q=>{ const p=new T.Mesh(new T.CylinderGeometry(.04,.04,.6,6),new T.MeshStandardMaterial({color:0x2A3F60,metalness:.6,roughness:.4})); p.position.set(q*sw*.34,g.userData.topo+.3,g.userData.d*.32); g.add(p); });
@@ -1043,9 +1075,9 @@ async function vComparar(){
   const by=new Map(lista.map(r=>[r.k,r])), rs=sel.map(k=>by.get(k));
   const cores=paleta(6); let ci=0; const cor=new Map(sel.map(k=>[k,ehFoco(k)?css('--focus'):cores[ci++]]));
   corpo.innerHTML=`<section class="abertura"><h1>Lado a lado em ${esc(nomeLinha(ST.linha).toLowerCase())}</h1><div class="sub"><span>${esc(P.rot)}</span><span>até 6 ${ST.nivel==='grupo'?'grupos':'seguradoras'}</span></div></section>
-   <div class="comp-chips" style="margin:18px 0 6px">${sel.map(k=>`<span class="cc" style="padding-left:5px">${avatar(k,22,cor.get(k)).replace('margin-right:9px','')}${esc(nomeEnt(k))}<button data-tira="${k}" aria-label="Tirar ${esc(nomeEnt(k))}">×</button></span>`).join('')}
+   <div class="comp-chips" style="margin:18px 0 6px">${sel.map(k=>`<span class="cc" style="padding-left:6px">${logoTile(k,36,22,{raio:7})}${esc(nomeEnt(k))}<button data-tira="${k}" aria-label="Tirar ${esc(nomeEnt(k))}">×</button></span>`).join('')}
     ${sel.length<6?`<select class="add-sel" id="c-add" aria-label="Adicionar seguradora"><option value="">+ adicionar</option>${lista.filter(r=>!sel.includes(r.k)).slice(0,80).map(r=>`<option value="${r.k}">${esc(r.nome)}</option>`).join('')}</select>`:''}</div>
-   <section class="painel" style="margin:16px 0 22px"><div class="painel-b" style="padding-top:16px"><div class="tab-wrap"><table><thead><tr><th class="l">Indicador</th>${rs.map(r=>`<th style="text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink)">${avatar(r.k,24,cor.get(r.k))}${esc(r.nome)}</th>`).join('')}<th>Mercado</th></tr></thead><tbody>
+   <section class="painel" style="margin:16px 0 22px"><div class="painel-b" style="padding-top:16px"><div class="tab-wrap"><table><thead><tr><th class="l">Indicador</th>${rs.map(r=>`<th class="th-seg"><div class="th-in">${logoTile(r.k,96,54,{raio:12,cor:cor.get(r.k)})}<span class="n">${esc(r.nome)}</span></div></th>`).join('')}<th style="vertical-align:bottom">Mercado</th></tr></thead><tbody>
     ${[['Posição',r=>r.pos+'º','—'],['Prêmio emitido',r=>fV(r.emit),fV(merc.emit)],['Participação',r=>fP(r.share),'100%'],['Crescimento',r=>`<span class="${cl(r.cres)}">${fP(r.cres,1,true)}</span>`,`<span class="${cl(merc.cres)}">${fP(merc.cres,1,true)}</span>`],
       ['Prêmio ganho',r=>fV(r.ganho),fV(merc.ganho)],['Sinistros',r=>fV(r.sin),fV(merc.sin)],['Sinistralidade',r=>fP(r.sinist),fP(merc.sinist)],['Comissão',r=>fP(r.comis),fP(merc.comis)],
       ['Sinistralidade + comissão',r=>fP((r.sinist??0)+(r.comis??0)),fP((merc.sinist??0)+(merc.comis??0))]]
@@ -1126,7 +1158,7 @@ async function vSeguradora(){
   const ini=anos.findIndex((a,i)=>S.total.g[i][0]>0); const A=ini<0?[]:anos.slice(ini).map((a,k)=>k+ini);
   const kpi=(k,v,d,c='')=>`<div class="kpi"><div class="k">${k}</div><div class="v ${c}">${v}</div><div class="d">${d}</div></div>`;
   $('#s-corpo').className=''; $('#s-corpo').innerHTML=`
-   <section class="abertura"><h1>${esc(M.grupos[gk][1])}</h1>
+   <section class="abertura"><div class="seg-topo">${logoTile(gk,168,94,{grupo:true})}<h1>${esc(M.grupos[gk][1])}</h1></div>
     <div class="sub"><span>${fV(tot)} em prêmios · ${esc(P.rot)}</span><span><b class="${cl(totB?tot/totB-1:null)}">${fP(totB?tot/totB-1:null,1,true)}</b> sobre ${esc(P.comp)}</span><span>${cias.length} ${cias.length===1?'empresa':'empresas'} no grupo</span></div></section>
    <section class="kpis">
     ${kpi('Lucro líquido',t&&t.lucro!=null?fV(t.lucro):'—',bp?esc(bp.rot):'sem balanço',cl(t&&t.lucro))}
