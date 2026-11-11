@@ -6,14 +6,14 @@
 <title>Mirante · mercado segurador</title>
 <meta name="description" content="Comparativo do mercado segurador brasileiro com dados públicos da SUSEP, atualizado automaticamente.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#EDF1F5; --surface:#FFFFFF; --surface2:#F5F8FB; --ink:#102A43; --ink2:#334E68; --muted:#627D98; --line:#D9E2EC; --line2:#BCCCDC;
   --brand:#1747E5; --brand-soft:rgba(23,71,229,.08); --focus:#F5A300; --focus-ink:#3D2600; --focus-soft:rgba(245,163,0,.14);
   --up:#0E7C55; --down:#C23B32;
   --r1:#1747E5; --r2:#3D66F0; --r3:#6687F5; --r4:#8EA7F8; --r5:#B5C6FB; --r6:#D4DEFC; --rest:#CBD5E1;
-  --f-disp:'Bricolage Grotesque',system-ui,sans-serif; --f-body:'IBM Plex Sans',system-ui,sans-serif;
+  --f-disp:'Bricolage Grotesque',system-ui,sans-serif; --f-body:'Inter',system-ui,sans-serif;
   --shadow:0 1px 2px rgba(16,42,67,.05),0 8px 24px -12px rgba(16,42,67,.12);
   color-scheme:light;
 }
@@ -142,7 +142,7 @@ tr.foco .barra{background:var(--focus)}
 .cmp .trilho u{position:absolute;top:-5px;width:2px;height:16px;background:var(--ink);border-radius:1px}
 .cmp .leg{font-size:12px;color:var(--muted);margin-top:4px}
 .chart{position:relative;height:300px}
-.chart.alto{height:340px}
+.chart.alto{height:380px}
 
 /* kpis */
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:22px 0;box-shadow:var(--shadow)}
@@ -229,7 +229,7 @@ tr.foco .barra{background:var(--focus)}
 footer{padding:30px 0 50px;color:var(--muted);font-size:12.5px}
 .carregando{padding:80px 0;text-align:center;color:var(--muted)}
 /* ===== Repaginada 2026-11: topo e aberturas em faixa azul-noite, títulos com serifa, números em mono, "cidade" no Mercado ===== */
-:root{--noite:#0D1B2A; --f-disp:'Fraunces',Georgia,serif; --f-body:'Inter',system-ui,sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+:root{--noite:#0D1B2A; --f-disp:'Poppins','Inter',system-ui,sans-serif; --f-body:'Inter',system-ui,sans-serif; --f-mono:'Inter',system-ui,sans-serif}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--noite:#060E1A}}
 :root[data-theme="dark"]{--noite:#060E1A}
 header.top,.banda,.abertura,.cidade-top,#app>.filtros,#app>.subramos{
@@ -239,14 +239,14 @@ header.top{background:var(--noite);backdrop-filter:none;border-bottom:1px solid 
 nav.abas button{color:#B9C6D8}
 nav.abas button:hover{background:#13263A}
 nav.abas button[aria-selected="true"]{background:#FFFFFF;color:#0D1B2A;font-weight:600}
-.marca{color:#FFFFFF;font:600 23px/1 var(--f-disp);letter-spacing:-.01em}
+.marca{color:#FFFFFF;font:700 21px/1 var(--f-disp);letter-spacing:-.02em}
 .foco-sel{border-color:#23395A}
 /* faixa escura de largura total, sem mexer na grade da página */
 .banda,.abertura,.cidade-top,#app>.filtros,#app>.subramos{border-image:conic-gradient(var(--noite) 0 0) fill 0//1px 100vmax}
 html,body{overflow-x:clip}
 #app>.filtros{padding-top:22px}
 .abertura{padding:18px 0 34px}
-.abertura h1,.cidade-top h1{font:600 clamp(34px,5vw,64px)/1.02 var(--f-disp);letter-spacing:-.015em;max-width:20ch}
+.abertura h1,.cidade-top h1{font:700 clamp(28px,4vw,48px)/1.12 var(--f-disp);letter-spacing:-.025em;max-width:24ch}
 .abertura .sub b{color:var(--ink)}
 .cidade-top{padding:22px 0 30px;margin-bottom:22px}
 .chip[aria-pressed="true"]{background:#FFFFFF;border-color:#FFFFFF;color:#0D1B2A;font-weight:600}
@@ -256,27 +256,27 @@ html,body{overflow-x:clip}
 /* painéis e números */
 .painel{border-radius:20px}
 .painel-h h2{font:600 23px/1.2 var(--f-disp);letter-spacing:-.01em}
-td{font-family:var(--f-mono);font-size:13.5px}
+td{font-family:var(--f-body);font-size:14px;font-variant-numeric:tabular-nums lining-nums;font-feature-settings:'tnum','cv11'}
 td.l,td.nome,td.pos-n{font-family:var(--f-body);font-size:14px}
 .posicao{font:700 80px/.95 var(--f-disp);letter-spacing:-.02em}
 .kpis{gap:12px;background:none;border:0;border-radius:0;overflow:visible;box-shadow:none}
 .kpi{border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
 .kpi .k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.kpi .v{font:600 26px/1.15 var(--f-mono);letter-spacing:-.01em;margin-top:6px}
+.kpi .v{font:600 25px/1.15 var(--f-body);letter-spacing:-.02em;margin-top:6px}
 .ficha-h h2{font-weight:600}
-.ficha .grande{font:600 46px/1 var(--f-mono)}
-.ficha .dados div b{font:600 19px/1.2 var(--f-mono)}
-.nt a{font-family:var(--f-disp);font-weight:600;font-size:16.5px;line-height:1.3}
+.ficha .grande{font:600 44px/1 var(--f-body);letter-spacing:-.03em}
+.ficha .dados div b{font:600 19px/1.2 var(--f-body);letter-spacing:-.01em}
+.nt a{font-family:var(--f-body);font-weight:600;font-size:15.5px;line-height:1.35}
 .btn{font-family:var(--f-body)}
 /* a cidade no Mercado */
 .cidade-mini{margin-top:30px}
 .cm-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px}
-.cm-h h2{font:600 24px/1.2 var(--f-disp);margin:0}
+.cm-h h2{font:600 20px/1.25 var(--f-disp);letter-spacing:-.015em;margin:0}
 .cm-h span{font-size:13px;color:var(--muted)}
 .cm-rolo{overflow-x:auto;padding-bottom:30px;margin-top:14px}
 .cm-predios{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;align-items:end;height:280px;min-width:720px;border-bottom:2px solid var(--line)}
 .pr{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;border:0;background:none;padding:0;cursor:pointer;color:var(--muted);min-width:0}
-.pr .pct{font:600 11px var(--f-mono);text-align:center;white-space:nowrap}
+.pr .pct{font:600 11px var(--f-body);text-align:center;white-space:nowrap}
 .pr .pd{display:block;border-radius:6px 6px 0 0;background-color:#2A4A75;background-image:radial-gradient(rgba(255,226,160,.38) 1.3px,transparent 1.7px);background-size:9px 11px;background-position:2px 4px;transform-origin:bottom;transition:transform .2s,background-color .2s;animation:sobe2 .9s cubic-bezier(.2,.8,.2,1) both}
 .pr:hover .pd,.pr:focus-visible .pd{background-color:#3B62A0;transform:translateY(-4px)}
 .pr.foco .pd{background-color:var(--focus);background-image:none;box-shadow:0 0 24px rgba(245,160,0,.45)}
@@ -286,6 +286,79 @@ td.l,td.nome,td.pos-n{font-family:var(--f-body);font-size:14px}
 @keyframes sobe2{from{transform:scaleY(0)}}
 @media (prefers-reduced-motion:reduce){.pr .pd{animation:none;transition:none}}
 .cidade-mini .faixa-reg{margin-top:4px}
+
+/* ===== 2026-11-10: acabamento mais leve, avatares/logos, ordenação, estimativas (DA, combined, resultado) ===== */
+body{background:radial-gradient(1200px 500px at 85% -10%,color-mix(in srgb,var(--brand) 7%,transparent),transparent 60%),var(--bg);background-attachment:fixed}
+.painel{border-radius:22px;border-color:color-mix(in srgb,var(--line) 70%,transparent);box-shadow:0 1px 2px rgba(16,42,67,.04),0 18px 40px -24px rgba(16,42,67,.22)}
+.painel-h{padding:20px 24px 6px}.painel-b{padding:10px 24px 22px}
+.painel-h h2{font:600 18.5px/1.25 var(--f-disp);letter-spacing:-.015em}
+th{font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:10px 8px}
+td{padding:11px 8px;border-bottom-color:color-mix(in srgb,var(--line) 65%,transparent)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:color-mix(in srgb,var(--brand) 5%,transparent)}
+.abertura .sub{gap:8px 10px}
+.abertura .sub span{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13.5px}
+/* aparece suavemente */
+@keyframes surge{from{opacity:0;transform:translateY(10px)}}
+#app .painel,#app .kpi,#app .comp-chips{animation:surge .5s cubic-bezier(.2,.8,.2,1) both}
+#app .grade>*:nth-child(2),#app .grade2>*:nth-child(2){animation-delay:.07s}
+#app .grade2{--d:.1s}
+@media (prefers-reduced-motion:reduce){#app .painel,#app .kpi,#app .comp-chips{animation:none}}
+/* aba selecionada: pílula que desliza */
+nav.abas{position:relative}
+nav.abas .pilula{position:absolute;top:0;left:0;height:100%;border-radius:999px;background:#FFFFFF;transition:transform .45s cubic-bezier(.3,.9,.3,1),width .45s cubic-bezier(.3,.9,.3,1);pointer-events:none;z-index:0}
+nav.abas button{position:relative;z-index:1;transition:color .25s}
+nav.abas.com-pilula button[aria-selected="true"]{background:none}
+@media (prefers-reduced-motion:reduce){nav.abas .pilula{transition:none}}
+/* avatar da seguradora: logo se houver na pasta docs/logos, senão a sigla */
+.lgo{display:inline-grid;place-items:center;flex:none;border-radius:8px;vertical-align:middle;margin-right:9px;object-fit:contain;background:#fff;border:1px solid var(--line)}
+.lgo.sig{font:700 10px/1 var(--f-body);letter-spacing:.02em;color:var(--ink2);background:var(--surface2);border:1px solid var(--line)}
+tr.foco .lgo.sig,.top10 button.f .lgo.sig{box-shadow:inset 0 0 0 2px var(--focus)}
+td.nome{max-width:190px}
+#rk-tab th,#rk-tab td{padding-left:6px;padding-right:6px}
+#rk-tab .barra{margin-right:6px}
+.grade{grid-template-columns:minmax(0,2.25fr) minmax(0,1fr)}
+@media (max-width:980px){.grade{grid-template-columns:minmax(0,1fr)}}
+td.nome .lgo{margin-right:10px}
+th .lgo{margin-right:8px}
+/* cabeçalho que ordena */
+th.ord{cursor:pointer;user-select:none;border-radius:8px}
+th.ord:hover{color:var(--ink)}
+th.ord i{display:inline-block;font-style:normal;font-size:9px;margin-left:5px;opacity:.35;transform:translateY(-1px)}
+th.ord[aria-sort] {color:var(--ink)}
+th.ord[aria-sort] i{opacity:1;color:var(--brand)}
+.tab-pe{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 16px;margin-top:12px}
+.lnk{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer}
+.lnk:hover{border-color:var(--line2);color:var(--ink)}
+/* campo da DA */
+.da-box{text-transform:none;letter-spacing:0;font-weight:500;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:3px 10px 3px 12px;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.da-box input{width:52px;border:0;background:transparent;text-align:right;font-weight:600;color:var(--ink);padding:3px 0;-moz-appearance:textfield}
+.da-box input::-webkit-outer-spin-button,.da-box input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.da-box input:focus{outline:none}
+.da-box:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+tr.est td{background:color-mix(in srgb,var(--brand) 3.5%,transparent)}
+tr.est td.l{color:var(--ink)}
+tr.est.res td{font-weight:600;font-size:14.5px}
+tr.sep-est td{padding:14px 8px 6px;border-bottom:1px solid var(--line);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:left;background:none!important;cursor:default}
+.selo{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12.5px;font-weight:600}
+.selo.pos{background:color-mix(in srgb,var(--up) 13%,transparent)}
+.selo.neg{background:color-mix(in srgb,var(--down) 13%,transparent)}
+/* cartão em destaque: escolha entre as 10 maiores + mostrador */
+.top10{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
+.top10 button{display:inline-flex;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px 3px 4px;font-size:12px;color:var(--ink2);cursor:pointer;max-width:150px}
+.top10 button span.n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top10 button .lgo{margin-right:6px;border-radius:50%}
+.top10 button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+.top10 button.f:not([aria-pressed="true"]){border-color:var(--focus)}
+.card-topo{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.mostrador{position:relative;width:132px;height:132px;flex:none}
+.mostrador svg{width:100%;height:100%;display:block}
+.mostrador line{stroke:var(--line2);stroke-width:2.6;stroke-linecap:round;transition:stroke .35s}
+.mostrador line.on{stroke:var(--c)}
+.mostrador .meio{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.mostrador .meio b{display:block;font:700 23px/1 var(--f-body);letter-spacing:-.02em;color:var(--c)}
+.mostrador .meio small{display:block;font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.2}
+.posicao{font:700 56px/.95 var(--f-disp);letter-spacing:-.035em}
 </style>
 </head>
 <body>
@@ -312,8 +385,8 @@ td.l,td.nome,td.pos-n{font-family:var(--f-body);font-size:14px}
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script>
 // ============================ estado ============================
-if(window.Chart){ Chart.defaults.font.family="'IBM Plex Sans',system-ui,sans-serif"; }
-const ST={aba:'corrida',clinha:'todas',altura:'e',escolha:null,linha:'vida',ramos:null,per:'12m',nivel:'grupo',foco:null,comp:[],ntema:'',nseg:'',segAlvo:null};
+if(window.Chart){ Chart.defaults.font.family="'Inter',system-ui,sans-serif"; }
+const ST={aba:'corrida',clinha:'todas',altura:'e',escolha:null,linha:'vida',ramos:null,per:'12m',nivel:'grupo',foco:null,comp:[],ntema:'',nseg:'',segAlvo:null,da:15,ord:{c:'emit',d:-1},mais:false,cardK:null};
 const D={meta:null,bal:null,not:null,linhas:{},charts:{}};
 const COMPOSTAS={pessoas:{nome:'Pessoas (todas)',ids:['vida','prestamista','ap','pessoas_outros']},todas:{nome:'Todos os ramos',ids:null}};
 const PESSOAS=['vida','prestamista','ap','pessoas_outros'];
@@ -330,7 +403,15 @@ const fBR=(v,d=1)=>v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFrac
 const fV=v=>{ if(!ok(v)) return '—'; const a=Math.abs(v); if(a>=1e6) return 'R$ '+fBR(v/1e6,a>=1e7?1:2)+' bi'; if(a>=1e3) return 'R$ '+fBR(v/1e3,a>=1e5?0:1)+' mi'; return 'R$ '+fBR(v,0)+' mil'; };
 const fP=(v,d=1,sinal=false)=>ok(v)?(sinal&&v>0?'+':'')+fBR(v*100,d)+'%':'—';
 const cl=v=>ok(v)?(v>0?'pos':v<0?'neg':''):'';
-const salva=()=>{ try{ localStorage.setItem('mirante',JSON.stringify({foco:ST.foco,linha:ST.linha,per:ST.per,nivel:ST.nivel,comp:ST.comp})); }catch{} };
+// valor com sinal na frente (prejuízo aparece como −R$ 12 mi)
+const fVs=v=>!ok(v)?'—':v<0?'−'+fV(-v):fV(v);
+// ---------- estimativas: DA informada (% do prêmio ganho), combined e resultado operacional ----------
+const daPct=()=>{ const v=+ST.da; return (isFinite(v)?Math.min(60,Math.max(0,v)):15)/100; };
+const combDe=r=>r&&ok(r.sinist)&&ok(r.comis)?r.sinist+r.comis+daPct():null;
+const resDe=r=>ok(combDe(r))?r.ganho*(1-combDe(r)):null;
+const clComb=v=>ok(v)?(v<1?'pos':'neg'):'';
+const daBox=()=>`<label class="da-box" title="Despesa administrativa estimada, em % do prêmio ganho. Vale para todas as seguradoras.">DA estimada <input class="da-in" type="number" min="0" max="60" step="0.5" value="${+(daPct()*100).toFixed(1)}" inputmode="decimal" aria-label="Despesa administrativa estimada em porcentagem do prêmio ganho">%</label>`;
+const salva=()=>{ try{ localStorage.setItem('mirante',JSON.stringify({foco:ST.foco,linha:ST.linha,per:ST.per,nivel:ST.nivel,comp:ST.comp,da:ST.da})); }catch{} };
 try{ Object.assign(ST,JSON.parse(localStorage.getItem('mirante')||'{}')); }catch{}
 async function getJSON(p){ const r=await fetch(p,{cache:'no-cache'}); if(!r.ok) throw new Error(p); return r.json(); }
 
@@ -386,7 +467,11 @@ function serie12(rows,keys,campo=0){
 }
 
 // ============================ estrutura ============================
-function setAba(a){ ST.aba=a; document.querySelectorAll('nav.abas button').forEach(b=>b.setAttribute('aria-selected',b.dataset.aba===a)); render(); window.scrollTo({top:0}); }
+function moveP(){ const nav=document.querySelector('nav.abas'), b=nav&&nav.querySelector('button[aria-selected="true"]'); if(!b) return;
+  let p=nav.querySelector('.pilula'); if(!p){ p=document.createElement('span'); p.className='pilula'; p.style.transition='none'; nav.prepend(p); nav.classList.add('com-pilula'); requestAnimationFrame(()=>requestAnimationFrame(()=>p.style.transition='')); }
+  p.style.width=b.offsetWidth+'px'; p.style.height=b.offsetHeight+'px'; p.style.transform=`translate(${b.offsetLeft}px,${b.offsetTop}px)`; }
+addEventListener('resize',moveP);
+function setAba(a){ ST.aba=a; document.querySelectorAll('nav.abas button').forEach(b=>b.setAttribute('aria-selected',b.dataset.aba===a)); moveP(); render(); window.scrollTo({top:0}); }
 function filtrosHTML(opts={}){
   const M=D.meta, prim=['vida','prestamista','ap','pessoas_outros','pessoas'], outros=M.linhas.filter(l=>!PESSOAS.includes(l.id)&&l.registros>0).map(l=>l.id).concat(['todas']);
   const anos=[...new Set(M.meses.map(m=>m.slice(0,4)))].filter(y=>M.meses.filter(m=>m.startsWith(y)).length===12).reverse();
@@ -430,8 +515,10 @@ function casaLogos(arqs){
     if(best) out[k]=best; });
   return out;
 }
-async function carregaLogos(){
-  if(LOGOS) return LOGOS; LOGOS={};
+let LOGOS_P=null;
+function carregaLogos(){ return LOGOS_P||(LOGOS_P=_carregaLogos()); }
+async function _carregaLogos(){
+  LOGOS={};
   try{ const c=sessionStorage.getItem('mirante-logos'); if(c){ LOGOS=casaLogos(JSON.parse(c)); return LOGOS; } }catch{}
   try{ const h=location.hostname.match(/^([^.]+)\.github\.io$/), repo=location.pathname.split('/').filter(Boolean)[0]; if(!h||!repo) return LOGOS;
     const ctl=new AbortController(); setTimeout(()=>ctl.abort(),3000);
@@ -440,6 +527,9 @@ async function carregaLogos(){
     try{ sessionStorage.setItem('mirante-logos',JSON.stringify(arqs)); }catch{} LOGOS=casaLogos(arqs);
   }catch{} return LOGOS;
 }
+function avatar(k,tam=24,cor){ const g=ST.nivel==='grupo'?k:D.meta.cias[k][2], nome=nomeEnt(k), st=`width:${tam}px;height:${tam}px`;
+  if(LOGOS&&LOGOS[g]) return `<img class="lgo" style="${st}" src="logos/${encodeURIComponent(LOGOS[g])}" alt="" loading="lazy" onerror="this.style.display='none'">`;
+  return `<span class="lgo sig" aria-hidden="true" style="${st};font-size:${Math.max(9,Math.round(tam*.4))}px${cor?`;box-shadow:inset 0 0 0 2px ${cor}`:''}">${esc(SIGLA(nome))}</span>`; }
 const logoIni=k=>LOGOS&&LOGOS[k]?'logos/'+encodeURIComponent(LOGOS[k]):'logos/'+D.meta.grupos[k][0].replace(':','')+'.png';
 // quebra um nome em no máximo 2 linhas de até n letras
 function quebra(txt,n){ if(txt.length<=n) return [txt]; const w=txt.split(' '); let a='';
@@ -476,7 +566,7 @@ function corrida(L,meses){
     const en=b.enter().append('g').attr('class','b').attr('transform',`translate(0,${P.t+N*bh})`);
     en.append('rect').attr('x',P.l).attr('height',bh*.72).attr('rx',bh*.36).attr('fill',d=>cor(d.k));
     // nome em até 2 linhas, alinhado à direita, com o logo à esquerda
-    const nm=en.append('text').attr('class','nm').attr('text-anchor','end').attr('fill','#EAF0FF').style('font',"600 14px 'IBM Plex Sans',sans-serif");
+    const nm=en.append('text').attr('class','nm').attr('text-anchor','end').attr('fill','#EAF0FF').style('font',"600 14px 'Inter',sans-serif");
     nm.each(function(d){ if(mob) return; const ls=quebra(nome(d.k),Math.max(14,Math.floor((P.l-70)/7.6))), t=d3.select(this);
       ls.forEach((l,ix)=>t.append('tspan').attr('x',P.l-12).attr('y',bh*.36+(ix-(ls.length-1)/2)*16).attr('dy','.35em').text(l)); });
     if(!mob){ const lg=en.append('image').attr('class','lg').attr('x',function(){ const ts=[...this.parentNode.querySelectorAll('.nm tspan')]; const w=Math.max(0,...ts.map(t=>t.getComputedTextLength())); return Math.max(4,P.l-12-w-40); }).attr('y',bh*.36-15).attr('width',30).attr('height',30).attr('preserveAspectRatio','xMidYMid meet');
@@ -488,7 +578,7 @@ function corrida(L,meses){
     ic.append('image').attr('x',-bh*.31).attr('y',-bh*.31).attr('width',bh*.62).attr('height',bh*.62).attr('clip-path',d=>`url(#cl${d.k})`).attr('preserveAspectRatio','xMidYMid meet')
       .attr('href',d=>logoIni(d.k)).on('error',function(e,d){ const el=d3.select(this), t=+(el.attr('data-t')||0), cod=M.grupos[d.k][0].replace(':','');
       const alt=['logos/'+cod+'.svg','logos/'+slug(nome(d.k))+'.png','logos/'+slug(nome(d.k))+'.svg'][t]; if(alt) el.attr('data-t',t+1).attr('href',alt); else el.remove(); });
-    en.append('text').attr('class','vl').attr('y',bh*.36).attr('dy','.35em').attr('fill','#9AABD6').style('font',`500 ${mob?11.5:13.5}px 'IBM Plex Sans',sans-serif`);
+    en.append('text').attr('class','vl').attr('y',bh*.36).attr('dy','.35em').attr('fill','#9AABD6').style('font',`500 ${mob?11.5:13.5}px 'Inter',sans-serif`);
     en.style('opacity',d=>ST.escolha!=null&&d.k!==ST.escolha?.45:1);
     en.on('click',(e,d)=>{ parar(); ST.escolha=d.k; g.selectAll('g.b').style('opacity',x=>x.k===d.k?1:.45); $('#ficha').innerHTML=fichaHTML(cidadeDados()); $('#ficha').scrollIntoView({behavior:'smooth',block:'nearest'}); });
     const all=en.merge(b);
@@ -627,15 +717,17 @@ async function vMercado(){
     ${skylineHTML(lista,f)}
    </section>
    <div class="grade">
-    <section class="painel"><div class="painel-h"><h2>Ranking</h2><p>prêmio emitido · ${esc(P.rot)}</p></div>
-     <div class="painel-b"><div class="tab-wrap">${tabelaRank(lista,f,merc)}</div>
-     <p class="nota" style="margin:10px 0 0">Sinistralidade e comissão sobre o prêmio ganho. Seta: mudança de posição contra ${esc(P.comp)}. Clique numa linha para abrir a seguradora.</p></div></section>
-    ${focoCard(f,merc,lista)}
+    <section class="painel"><div class="painel-h"><h2>Ranking</h2><p>${esc(P.rot)} · clique no título de uma coluna para ordenar</p></div>
+     <div class="painel-b"><div class="tab-wrap" id="rk-tab">${tabelaRank(lista,f,merc)}</div>
+     <div class="tab-pe"><button type="button" class="lnk" id="rk-mais">${ST.mais?'Mostrar só 15':'Mostrar as 30 maiores'}</button>${daBox()}</div>
+     <p class="nota" style="margin:10px 0 0">Sinistralidade e comissão sobre o prêmio ganho. Combined estimado = sinistralidade + comissão + DA estimada. A ordenação vale entre as 30 maiores em prêmio. Seta: mudança de posição contra ${esc(P.comp)}. Clique numa linha para abrir a seguradora.</p></div></section>
+    <div id="foco-card">${focoCard(f,merc,lista)}</div>
    </div>
    <div class="grade2">
-    <section class="painel"><div class="painel-h"><h2>Quem cresce</h2><p>prêmio emitido em 12 meses móveis</p></div><div class="painel-b"><div class="chart"><canvas id="ch-evo" aria-label="Evolução do prêmio das maiores"></canvas></div></div></section>
-    <section class="painel"><div class="painel-h"><h2>Sinistralidade × comissão</h2><p>tamanho do círculo = prêmio</p></div><div class="painel-b"><div class="chart"><canvas id="ch-disp" aria-label="Sinistralidade contra comissão"></canvas></div><p class="nota" style="margin:6px 0 0">Abaixo e à esquerda: mais margem técnica. As linhas tracejadas marcam a média do mercado.</p></div></section>
+    <section class="painel"><div class="painel-h"><h2>Quem cresce</h2><p>prêmio emitido em 12 meses móveis</p></div><div class="painel-b"><div class="chart alto"><canvas id="ch-evo" aria-label="Evolução do prêmio das maiores"></canvas></div></div></section>
+    <section class="painel"><div class="painel-h"><h2>Para onde vai o prêmio</h2><p>12 maiores · % do prêmio ganho</p></div><div class="painel-b"><div class="chart alto"><canvas id="ch-disp" aria-label="Sinistralidade, comissão e despesa administrativa estimada das maiores seguradoras"></canvas></div><p class="nota" style="margin:6px 0 0">Da menor soma para a maior. Barra que passa da linha de 100% indica prejuízo operacional estimado.</p></div></section>
    </div>`;
+  D.mk={rows,lista,f,merc}; acendeMostrador();
   desenhaEvo(rows,lista,f); desenhaDisp(lista,f,merc);
 }
 function curtoNome(n){ return n.replace(/ \(.*\)$/,'').replace(/ (Seguros?|Seguridade|Vida e Previdência)$/,'').replace(/^Zurich Santander( Vida)?$/,'Zurich Sant.'); }
@@ -657,27 +749,47 @@ function faixaHTML(lista,f){
   return `<div class="faixa-box"><div class="faixa faixa-anim" role="img" aria-label="Participação de mercado">${html}<div class="s claro" style="flex-grow:${Math.max(resto,0)};background:var(--rest)" title="Demais: ${fP(resto)}">${resto>0.07?`<b>Demais</b><small>${fP(resto)}</small>`:''}</div></div>
    <div class="faixa-reg"><span>participação no prêmio emitido</span>${f?`<span class="foco-m"><i></i>${esc(f.nome)}: ${fP(f.share)} · ${f.pos}º lugar</span>`:'<span>escolha uma seguradora em destaque no topo</span>'}</div></div>`;
 }
+const ORD={emit:['Prêmio',r=>r.emit],share:['Participação',r=>r.share],cres:['Cresc.',r=>r.cres],sinist:['Sinistr.',r=>r.sinist],comis:['Comissão',r=>r.comis],comb:['Combined',r=>combDe(r)]};
 function tabelaRank(lista,f,merc){
-  const max=lista[0].share; let vis=lista.slice(0,15); if(f&&!vis.includes(f)) vis=vis.concat([f]);
-  return `<table><thead><tr><th class="l"></th><th class="l">Seguradora</th><th>Prêmio</th><th class="l">Participação</th><th>Cresc.</th><th>Sinistralidade</th><th>Comissão</th></tr></thead><tbody>
-   ${vis.map(r=>{ const d=r.posB?r.posB-r.pos:null;
-     return `<tr class="${r===f?'foco':''}" data-ent="${r.k}"><td class="l pos-n">${r.pos}${d?`<span class="mov ${d>0?'pos':'neg'}">${d>0?'▲':'▼'}${Math.abs(d)}</span>`:''}</td><td class="l nome" title="${esc(r.nome)}">${esc(r.nome)}</td><td>${fV(r.emit)}</td>
-     <td class="l"><span class="barra" style="width:${Math.max(2,r.share/max*56)}px"></span>${fP(r.share)}</td><td class="${cl(r.cres)}">${fP(r.cres,1,true)}</td><td>${fP(r.sinist,0)}</td><td>${fP(r.comis,0)}</td></tr>`; }).join('')}
-   <tr style="cursor:default"><td></td><td class="l"><b>Mercado</b></td><td><b>${fV(merc.emit)}</b></td><td class="l">100%</td><td class="${cl(merc.cres)}"><b>${fP(merc.cres,1,true)}</b></td><td><b>${fP(merc.sinist,0)}</b></td><td><b>${fP(merc.comis,0)}</b></td></tr>
+  const max=lista[0].share, o=ST.ord&&ORD[ST.ord.c]?ST.ord:{c:'emit',d:-1}, val=ORD[o.c][1];
+  // ordena entre as 30 maiores em prêmio (evita seguradora minúscula com +900% no topo)
+  let base=lista.slice(0,30).slice().sort((a,b)=>{ const x=val(a), y=val(b); if(!ok(x)) return 1; if(!ok(y)) return -1; return (x-y)*o.d; });
+  let vis=base.slice(0,ST.mais?30:15); if(f&&!vis.includes(f)) vis=vis.concat([f]);
+  const th=(c,cls='')=>`<th class="ord ${cls}" data-ord="${c}" ${o.c===c?`aria-sort="${o.d<0?'descending':'ascending'}"`:''} title="Ordenar por ${ORD[c][0].toLowerCase()}">${ORD[c][0]}<i>${o.c===c?(o.d<0?'▼':'▲'):'▼'}</i></th>`;
+  return `<table><thead><tr><th class="l"></th><th class="l">Seguradora</th>${th('emit')}${th('share','l')}${th('cres')}${th('sinist')}${th('comis')}${th('comb')}</tr></thead><tbody>
+   ${vis.map(r=>{ const d=r.posB?r.posB-r.pos:null, cb=combDe(r);
+     return `<tr class="${r===f?'foco':''}" data-ent="${r.k}"><td class="l pos-n">${r.pos}${d?`<span class="mov ${d>0?'pos':'neg'}">${d>0?'▲':'▼'}${Math.abs(d)}</span>`:''}</td><td class="l nome" title="${esc(r.nome)}">${avatar(r.k,24)}${esc(r.nome)}</td><td>${fV(r.emit)}</td>
+     <td class="l"><span class="barra" style="width:${Math.max(2,r.share/max*38)}px"></span>${fP(r.share)}</td><td class="${cl(r.cres)}">${fP(r.cres,1,true)}</td><td>${fP(r.sinist,0)}</td><td>${fP(r.comis,0)}</td><td>${ok(cb)?`<span class="selo ${clComb(cb)}">${fP(cb,0)}</span>`:'—'}</td></tr>`; }).join('')}
+   <tr style="cursor:default"><td></td><td class="l"><b>Mercado</b></td><td><b>${fV(merc.emit)}</b></td><td class="l">100%</td><td class="${cl(merc.cres)}"><b>${fP(merc.cres,1,true)}</b></td><td><b>${fP(merc.sinist,0)}</b></td><td><b>${fP(merc.comis,0)}</b></td><td><b class="${clComb(combDe(merc))}">${fP(combDe(merc),0)}</b></td></tr>
   </tbody></table>`;
 }
+// mostrador de traços (0 a 150%): verde abaixo de 100%, vermelho acima
+function mostrador(v){
+  if(!ok(v)) return '';
+  const N=44, R=60, lig=Math.round(Math.min(1.5,Math.max(0,v))/1.5*N), cor=v<1?'var(--up)':'var(--down)';
+  const tr=[...Array(N)].map((_,i)=>{ const a=(-225+i/(N-1)*270)*Math.PI/180, x1=66+Math.cos(a)*(R-13), y1=66+Math.sin(a)*(R-13), x2=66+Math.cos(a)*R, y2=66+Math.sin(a)*R;
+    return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" data-i="${i}"/>`; }).join('');
+  return `<div class="mostrador" style="--c:${cor}" data-lig="${lig}" role="img" aria-label="Combined estimado de ${fP(v,0)}"><svg viewBox="0 0 132 132">${tr}</svg><div class="meio"><div><b>${fP(v,0)}</b><small>combined<br>estimado</small></div></div></div>`;
+}
+function acendeMostrador(){ document.querySelectorAll('.mostrador').forEach(m=>{ const n=+m.dataset.lig, ls=m.querySelectorAll('line');
+  const semAnim=matchMedia('(prefers-reduced-motion: reduce)').matches; ls.forEach((l,i)=>{ if(i<n){ if(semAnim) l.classList.add('on'); else setTimeout(()=>l.classList.add('on'),120+i*16); } }); }); }
 function focoCard(f,merc,lista){
-  if(!f) return `<section class="painel foco-card"><div class="painel-h"><h2>Seguradora em destaque</h2></div><div class="painel-b"><p class="nota">${ST.foco==null?'Escolha no topo da página a seguradora que você quer acompanhar.':'A seguradora em destaque não tem prêmio nesse recorte.'}</p></div></section>`;
+  const top=lista.slice(0,10), alvo=(ST.cardK!=null&&lista.find(r=>r.k===ST.cardK))||f||null;
+  const chips=`<div class="top10" role="group" aria-label="Ver uma das 10 maiores">${(f&&!top.includes(f)?[f].concat(top):top).map(r=>`<button type="button" class="${r===f?'f':''}" data-card="${r.k}" aria-pressed="${r===alvo}" title="${esc(r.nome)} · ${r.pos}º">${avatar(r.k,20)}<span class="n">${esc(curtoNome(r.nome))}</span></button>`).join('')}</div>`;
+  if(!alvo) return `<section class="painel foco-card"><div class="painel-h"><h2>Seguradora em destaque</h2></div><div class="painel-b">${chips}<p class="nota">${ST.foco==null?'Escolha uma das 10 maiores acima ou defina a seguradora em destaque no topo da página.':'A seguradora em destaque não tem prêmio nesse recorte. Escolha uma das 10 maiores acima.'}</p></div></section>`;
   const linha=(rot,v,m,fmt,menor)=>{ const max=Math.max(v||0,m||0)*1.25||1; const melhor=menor?v<=m:v>=m;
     return `<div class="cmp"><div class="rot"><span>${rot}</span><b class="${ok(v)&&ok(m)?(melhor?'pos':'neg'):''}">${fmt(v)}</b></div><div class="trilho"><i style="width:${Math.min(100,(v||0)/max*100)}%"></i><u style="left:${Math.min(100,(m||0)/max*100)}%"></u></div><div class="leg">mercado: ${fmt(m)}</div></div>`; };
-  const g=x=>fP(x,1,true), p0=x=>fP(x,1);
-  return `<section class="painel foco-card"><div class="painel-h"><div class="titulo"><span class="pin"></span><h2>${esc(f.nome)}</h2></div></div>
-   <div class="painel-b"><div class="posicao">${f.pos}º<small>de ${lista.length} · ${fP(f.share)} do mercado</small></div>
-   <div class="nota">${fV(f.emit)} em prêmios${f.posB?` · era ${f.posB}º`:''}</div>
+  const g=x=>fP(x,1,true), p0=x=>fP(x,1), cb=combDe(alvo), rs=resDe(alvo);
+  return `<section class="painel foco-card"><div class="painel-h"><div class="titulo">${avatar(alvo.k,30)}<h2>${esc(alvo.nome)}</h2></div><p>${alvo===f?'em destaque':'uma das 10 maiores'}</p></div>
+   <div class="painel-b">${chips}
+   <div class="card-topo"><div><div class="posicao">${alvo.pos}º<small>de ${lista.length}</small></div>
+    <div class="nota" style="margin-top:6px">${fP(alvo.share)} do mercado · ${fV(alvo.emit)} em prêmios${alvo.posB?` · era ${alvo.posB}º`:''}</div></div>${mostrador(cb)}</div>
    <div class="compara">
-    <div class="cmp"><div class="rot"><span>Crescimento</span><b class="${ok(f.cres)&&ok(merc.cres)?(f.cres>=merc.cres?'pos':'neg'):''}">${g(f.cres)}</b></div><div class="leg">mercado: ${g(merc.cres)} · ${ok(f.cres)&&ok(merc.cres)?(f.cres>=merc.cres?'cresceu mais que o mercado e ganhou participação':'cresceu menos que o mercado e perdeu participação'):''}</div></div>
-    ${linha('Sinistralidade',f.sinist,merc.sinist,p0,true)}
-    ${linha('Comissão',f.comis,merc.comis,p0,true)}
+    <div class="cmp"><div class="rot"><span>Crescimento</span><b class="${ok(alvo.cres)&&ok(merc.cres)?(alvo.cres>=merc.cres?'pos':'neg'):''}">${g(alvo.cres)}</b></div><div class="leg">mercado: ${g(merc.cres)} · ${ok(alvo.cres)&&ok(merc.cres)?(alvo.cres>=merc.cres?'cresceu mais que o mercado e ganhou participação':'cresceu menos que o mercado e perdeu participação'):''}</div></div>
+    ${linha('Sinistralidade',alvo.sinist,merc.sinist,p0,true)}
+    ${linha('Comissão',alvo.comis,merc.comis,p0,true)}
+    ${linha(`Combined estimado <small style="color:var(--muted)">(DA de ${fBR(daPct()*100,1).replace(',0','')}%)</small>`,cb,combDe(merc),p0,true)}
+    <div class="cmp"><div class="rot"><span>Resultado operacional estimado</span><b class="${cl(rs)}">${fVs(rs)}</b></div><div class="leg">prêmio ganho − sinistros − comissões − DA estimada</div></div>
    </div>
    <p class="nota" style="margin:16px 0 0">Traço preto: média do mercado. Verde quando a seguradora está melhor que a média.</p></div></section>`;
 }
@@ -685,7 +797,7 @@ function paleta(n){ return ['--r1','--r3','--r5','#8B5CF6','#14B8A6','#64748B'].
 function optsBase(fmtY){
   const ink=css('--muted'), line=css('--line');
   return {responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:'index',intersect:false},
-    plugins:{legend:{position:'bottom',labels:{color:css('--ink2'),boxWidth:10,boxHeight:10,usePointStyle:true,pointStyle:'circle',font:{family:"'IBM Plex Sans',system-ui,sans-serif",size:12}}},
+    plugins:{legend:{position:'bottom',labels:{color:css('--ink2'),boxWidth:10,boxHeight:10,usePointStyle:true,pointStyle:'circle',font:{family:"'Inter',system-ui,sans-serif",size:12}}},
       tooltip:{backgroundColor:css('--ink'),titleColor:css('--bg'),bodyColor:css('--bg'),padding:10,callbacks:{label:c=>' '+c.dataset.label+': '+fmtY(c.parsed.y)}}},
     scales:{x:{grid:{display:false},ticks:{color:ink,maxTicksLimit:8,font:{size:11.5}}},y:{grid:{color:line},border:{display:false},ticks:{color:ink,callback:v=>fmtY(v),font:{size:11.5}}}}};
 }
@@ -697,16 +809,25 @@ function desenhaEvo(rows,lista,f){
   D.charts.evo=new Chart($('#ch-evo'),{type:'line',data:{labels:lab,datasets:ds},options:optsBase(fV)});
 }
 function desenhaDisp(lista,f,merc){
-  const pts=lista.filter(r=>ok(r.sinist)&&ok(r.comis)&&r.share>0.004&&r.sinist<2.5&&r.comis<1.5).slice(0,30);
-  const max=Math.max(...pts.map(r=>r.emit));
-  const o=optsBase(v=>fP(v,0)); o.interaction={mode:'nearest',intersect:true}; o.plugins.legend.display=false;
-  o.plugins.tooltip.callbacks={label:c=>{ const r=c.raw.r_; return ` ${r.nome}: sinistralidade ${fP(r.sinist,0)} · comissão ${fP(r.comis,0)} · ${fV(r.emit)}`; }};
-  o.scales.x={...o.scales.x,type:'linear',title:{display:true,text:'Sinistralidade',color:css('--muted')},ticks:{color:css('--muted'),callback:v=>fP(v,0)},grid:{color:css('--line')}};
-  o.scales.y.title={display:true,text:'Comissão',color:css('--muted')};
-  const media={id:'media',afterDraw(ch){ const {ctx,chartArea:a,scales:{x,y}}=ch; ctx.save(); ctx.setLineDash([4,4]); ctx.strokeStyle=css('--line2'); ctx.lineWidth=1;
-    const px=x.getPixelForValue(merc.sinist), py=y.getPixelForValue(merc.comis); ctx.beginPath(); ctx.moveTo(px,a.top); ctx.lineTo(px,a.bottom); ctx.moveTo(a.left,py); ctx.lineTo(a.right,py); ctx.stroke(); ctx.restore(); }};
-  D.charts.disp=new Chart($('#ch-disp'),{type:'bubble',data:{datasets:[{data:pts.map(r=>({x:r.sinist,y:r.comis,r:4+Math.sqrt(r.emit/max)*20,r_:r})),
-    backgroundColor:pts.map(r=>r===f?css('--focus'):css('--brand')+'55'),borderColor:pts.map(r=>r===f?css('--focus'):css('--brand')),borderWidth:1}]},options:o,plugins:[media]});
+  let pts=lista.slice(0,12).filter(r=>ok(combDe(r))); if(f&&ok(combDe(f))&&!pts.includes(f)) pts.push(f);
+  pts=pts.slice().sort((a,b)=>combDe(a)-combDe(b));
+  const linhas=pts.concat([{nome:'Mercado',sinist:merc.sinist,comis:merc.comis,merc:true}]), da=daPct();
+  const c1=css('--r1'), c2=css('--r4'), c3=css('--rest');
+  const o=optsBase(v=>fP(v,0)); o.indexAxis='y'; o.interaction={mode:'index',intersect:false,axis:'y'};
+  const teto=Math.max(1.1,Math.min(2,Math.max(...linhas.map(r=>(r.sinist||0)+(r.comis||0)+da))*1.05));
+  o.scales.x={stacked:true,min:0,max:teto,grid:{color:css('--line')},border:{display:false},ticks:{color:css('--muted'),callback:v=>fP(v,0),font:{size:11.5}}};
+  o.scales.y={stacked:true,grid:{display:false},border:{display:false},ticks:{color:c=>{ const r=linhas[c.index]; return r&&(r===f||r.merc)?css('--ink'):css('--ink2'); },font:c=>{ const r=linhas[c.index]; return {size:12,weight:r&&(r===f||r.merc)?'700':'500'}; }}};
+  o.plugins.tooltip.callbacks={label:c=>' '+c.dataset.label+': '+fP(c.parsed.x,1),footer:it=>{ const r=linhas[it[0].dataIndex]; const cb=(r.sinist||0)+(r.comis||0)+da; return 'Combined estimado: '+fP(cb,1)+(r.merc?'':'\nResultado estimado: '+fVs(resDe(r))); }};
+  const cem={id:'cem',afterDatasetsDraw(ch){ const {ctx,chartArea:a,scales:{x}}=ch, px=x.getPixelForValue(1); if(px<a.left||px>a.right) return; ctx.save(); ctx.setLineDash([5,4]); ctx.strokeStyle=css('--down'); ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(px,a.top); ctx.lineTo(px,a.bottom); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle=css('--down'); ctx.font="600 11px 'Inter',sans-serif"; ctx.textAlign='center'; ctx.fillText('100%',px,a.top-4); ctx.restore(); }};
+  const total={id:'total',afterDatasetsDraw(ch){ const {ctx,scales:{x,y}}=ch; ctx.save(); ctx.font="600 11.5px 'Inter',sans-serif"; ctx.textBaseline='middle';
+    linhas.forEach((r,i)=>{ const cb=(r.sinist||0)+(r.comis||0)+da; ctx.fillStyle=cb<1?css('--up'):css('--down'); ctx.fillText(fP(cb,0),x.getPixelForValue(Math.min(cb,teto))+6,y.getPixelForValue(i)); }); ctx.restore(); }};
+  o.layout={padding:{right:40,top:14}};
+  const forte=(cor)=>linhas.map(r=>r===f||r.merc?cor:cor+'CC');
+  D.charts.disp=new Chart($('#ch-disp'),{type:'bar',data:{labels:linhas.map(r=>r.merc?'Mercado':curtoNome(r.nome)),datasets:[
+    {label:'Sinistralidade',data:linhas.map(r=>r.sinist),backgroundColor:c1,borderRadius:{topLeft:6,bottomLeft:6},borderSkipped:false,barPercentage:.72},
+    {label:'Comissão',data:linhas.map(r=>r.comis),backgroundColor:c2,barPercentage:.72},
+    {label:`DA estimada (${fBR(da*100,1).replace(',0','')}%)`,data:linhas.map(()=>da),backgroundColor:c3,borderRadius:{topRight:6,bottomRight:6},borderSkipped:false,barPercentage:.72}]},options:o,plugins:[cem,total]});
 }
 
 // ============================ comparar ============================
@@ -721,14 +842,20 @@ async function vComparar(){
   const by=new Map(lista.map(r=>[r.k,r])), rs=sel.map(k=>by.get(k));
   const cores=paleta(6); let ci=0; const cor=new Map(sel.map(k=>[k,ehFoco(k)?css('--focus'):cores[ci++]]));
   corpo.innerHTML=`<section class="abertura"><h1>Lado a lado em ${esc(nomeLinha(ST.linha).toLowerCase())}</h1><div class="sub"><span>${esc(P.rot)}</span><span>até 6 ${ST.nivel==='grupo'?'grupos':'seguradoras'}</span></div></section>
-   <div class="comp-chips" style="margin:18px 0 6px">${sel.map(k=>`<span class="cc"><i style="background:${cor.get(k)}"></i>${esc(nomeEnt(k))}<button data-tira="${k}" aria-label="Tirar ${esc(nomeEnt(k))}">×</button></span>`).join('')}
+   <div class="comp-chips" style="margin:18px 0 6px">${sel.map(k=>`<span class="cc" style="padding-left:5px">${avatar(k,22,cor.get(k)).replace('margin-right:9px','')}${esc(nomeEnt(k))}<button data-tira="${k}" aria-label="Tirar ${esc(nomeEnt(k))}">×</button></span>`).join('')}
     ${sel.length<6?`<select class="add-sel" id="c-add" aria-label="Adicionar seguradora"><option value="">+ adicionar</option>${lista.filter(r=>!sel.includes(r.k)).slice(0,80).map(r=>`<option value="${r.k}">${esc(r.nome)}</option>`).join('')}</select>`:''}</div>
-   <section class="painel" style="margin:16px 0 22px"><div class="painel-b" style="padding-top:16px"><div class="tab-wrap"><table><thead><tr><th class="l">Indicador</th>${rs.map(r=>`<th><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${cor.get(r.k)};margin-right:6px"></span>${esc(r.nome)}</th>`).join('')}<th>Mercado</th></tr></thead><tbody>
+   <section class="painel" style="margin:16px 0 22px"><div class="painel-b" style="padding-top:16px"><div class="tab-wrap"><table><thead><tr><th class="l">Indicador</th>${rs.map(r=>`<th style="text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink)">${avatar(r.k,24,cor.get(r.k))}${esc(r.nome)}</th>`).join('')}<th>Mercado</th></tr></thead><tbody>
     ${[['Posição',r=>r.pos+'º','—'],['Prêmio emitido',r=>fV(r.emit),fV(merc.emit)],['Participação',r=>fP(r.share),'100%'],['Crescimento',r=>`<span class="${cl(r.cres)}">${fP(r.cres,1,true)}</span>`,`<span class="${cl(merc.cres)}">${fP(merc.cres,1,true)}</span>`],
       ['Prêmio ganho',r=>fV(r.ganho),fV(merc.ganho)],['Sinistros',r=>fV(r.sin),fV(merc.sin)],['Sinistralidade',r=>fP(r.sinist),fP(merc.sinist)],['Comissão',r=>fP(r.comis),fP(merc.comis)],
       ['Sinistralidade + comissão',r=>fP((r.sinist??0)+(r.comis??0)),fP((merc.sinist??0)+(merc.comis??0))]]
       .map(([n,fn,m])=>`<tr style="cursor:default"><td class="l">${n}</td>${rs.map(r=>`<td>${fn(r)}</td>`).join('')}<td><b>${m}</b></td></tr>`).join('')}
-   </tbody></table></div></div></section>
+    <tr class="sep-est"><td colspan="${rs.length+2}">Estimativas &nbsp;${daBox()}</td></tr>
+    ${[['DA estimada','',r=>fV(r.ganho*daPct()),fV(merc.ganho*daPct())],
+       ['Combined estimado','',r=>{ const v=combDe(r); return ok(v)?`<span class="selo ${clComb(v)}">${fP(v)}</span>`:'—'; },(v=>ok(v)?`<span class="${clComb(v)}">${fP(v)}</span>`:'—')(combDe(merc))],
+       ['Lucro ou prejuízo estimado','res',r=>{ const v=resDe(r); return `<span class="${cl(v)}">${fVs(v)}</span>`; },(v=>`<span class="${cl(v)}">${fVs(v)}</span>`)(resDe(merc))]]
+      .map(([n,c,fn,m])=>`<tr class="est ${c}" style="cursor:default"><td class="l">${n}</td>${rs.map(r=>`<td>${fn(r)}</td>`).join('')}<td><b>${m}</b></td></tr>`).join('')}
+   </tbody></table></div>
+   <p class="nota" style="margin:12px 0 0">DA estimada: percentual informado × prêmio ganho, igual para todas. Combined estimado = sinistralidade + comissão + DA. Lucro ou prejuízo estimado = prêmio ganho − sinistros − comissões − DA. É um resultado operacional aproximado: não inclui resultado financeiro, resseguro, tributos nem outras despesas, então não é o lucro do balanço.</p></div></section>
    <div class="grade2">
     <section class="painel"><div class="painel-h"><h2>Participação ao longo do tempo</h2><p>12 meses móveis</p></div><div class="painel-b"><div class="chart"><canvas id="ch-sh"></canvas></div></div></section>
     <section class="painel"><div class="painel-h"><h2>Sinistralidade ao longo do tempo</h2><p>12 meses móveis</p></div><div class="painel-b"><div class="chart"><canvas id="ch-si"></canvas></div></div></section>
@@ -891,6 +1018,9 @@ function vComo(){
     <li><b>Crescimento:</b> prêmio emitido do período contra o mesmo período do ano anterior. Valores nominais, sem descontar a inflação.</li>
     <li><b>Sinistralidade:</b> sinistros ocorridos ÷ prêmio ganho. Quanto do prêmio voltou para os segurados.</li>
     <li><b>Comissão:</b> despesas de comercialização ÷ prêmio ganho. Quanto ficou com corretores e canais de venda.</li>
+    <li><b>DA estimada:</b> despesa administrativa que você informa, em % do prêmio ganho (15% de início). O mesmo percentual vale para todas as seguradoras, porque o SES não traz essa despesa por ramo.</li>
+    <li><b>Combined estimado:</b> sinistralidade + comissão + DA estimada. Abaixo de 100% sobra margem operacional; acima, falta.</li>
+    <li><b>Lucro ou prejuízo estimado:</b> prêmio ganho − sinistros − comissões − DA estimada. É uma aproximação do resultado operacional: não inclui resultado financeiro, resseguro, tributos nem outras despesas.</li>
     <li><b>Índice combinado:</b> sinistros, comissões, despesas administrativas, tributos, resseguro e outras despesas operacionais ÷ prêmio ganho, pelo balanço. Abaixo de 100%, a operação de seguros dá lucro antes do resultado financeiro.</li>
     <li><b>Lucro, patrimônio e ROE:</b> do balanço que a seguradora entrega à SUSEP. Lucro de 12 meses ÷ patrimônio líquido.</li></ul>
    <h3>Grupos e empresas</h3><p>"Grupos" soma todas as empresas de um mesmo grupo econômico, como a SUSEP classifica hoje. O histórico também é somado com a composição atual, para comparar o mesmo conjunto de empresas ao longo do tempo. "Empresas" mostra cada seguradora separada.</p>
@@ -912,11 +1042,21 @@ document.addEventListener('click',e=>{
   const ra=e.target.closest('[data-ramo]'); if(ra){ const todos=ramosDaLinha(ST.linha), i=+ra.dataset.ramo; let s=ST.ramos?[...ST.ramos]:[...todos];
     s=s.includes(i)?s.filter(x=>x!==i):s.concat([i]); if(!s.length||s.length===todos.length) s=null; ST.ramos=s; render(); return; }
   const nv=e.target.closest('[data-nivel]'); if(nv){ ST.nivel=nv.dataset.nivel; ST.comp=[]; salva(); render(); return; }
+  if(e.target.closest('[data-card],th[data-ord],#rk-mais,.da-box')) return;
   const en=e.target.closest('[data-ent]'); if(en){ const k=+en.dataset.ent; ST.segAlvo=ST.nivel==='grupo'?k:D.meta.cias[k][2]; setAba('seguradora'); return; }
   const li=e.target.closest('[data-linha-ir]'); if(li){ ST.linha=li.dataset.linhaIr; ST.ramos=null; salva(); setAba('mercado'); return; }
   const ti=e.target.closest('[data-tira]'); if(ti){ ST.comp=(ST.compAtual||[]).filter(k=>k!==+ti.dataset.tira); if(!ST.comp.length) ST.comp=[-1]; salva(); render(); return; }
   const nt=e.target.closest('[data-ntema]'); if(nt){ ST.ntema=nt.dataset.ntema; render(); return; }
 });
+// ordenação do ranking, "mostrar mais" e troca da seguradora do cartão: refaz só o pedaço, sem recarregar a tela
+function refazRank(){ const k=D.mk; if(!k||!$('#rk-tab')) return; $('#rk-tab').innerHTML=tabelaRank(k.lista,k.f,k.merc); const b=$('#rk-mais'); if(b) b.textContent=ST.mais?'Mostrar só 15':'Mostrar as 30 maiores'; }
+function refazCard(){ const k=D.mk; if(!k||!$('#foco-card')) return; $('#foco-card').innerHTML=focoCard(k.f,k.merc,k.lista); acendeMostrador(); }
+document.addEventListener('click',e=>{
+  const o=e.target.closest('th[data-ord]'); if(o){ const c=o.dataset.ord; ST.ord=ST.ord&&ST.ord.c===c?{c,d:-ST.ord.d}:{c,d:-1}; refazRank(); return; }
+  if(e.target.closest('#rk-mais')){ ST.mais=!ST.mais; refazRank(); return; }
+  const cd=e.target.closest('[data-card]'); if(cd){ ST.cardK=+cd.dataset.card; refazCard(); return; }
+},true);
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('da-in')) e.target.blur(); });
 document.addEventListener('change',e=>{
   const el=e.target;
   if(el.id==='foco'){ ST.foco=+el.value; salva(); render(); }
@@ -925,6 +1065,7 @@ document.addEventListener('change',e=>{
   if(el.id==='c-add'&&el.value!==''){ ST.comp=(ST.compAtual||[]).filter(k=>k>=0).concat([+el.value]); salva(); render(); }
   if(el.id==='seg-alvo'){ ST.segAlvo=+el.value; render(); }
   if(el.id==='nseg'){ ST.nseg=el.value; render(); }
+  if(el.classList.contains('da-in')){ const v=parseFloat(String(el.value).replace(',','.')); ST.da=isFinite(v)?Math.min(60,Math.max(0,v)):15; salva(); render(); }
 });
 // tema
 const TEMA_K='mirante-tema';
@@ -944,6 +1085,8 @@ $('#tema').addEventListener('click',()=>{ const escuro=document.documentElement.
   const opts=[...M.grupos.keys()].sort((a,b)=>M.grupos[a][1].localeCompare(M.grupos[b][1],'pt'));
   $('#foco').innerHTML=opts.map(i=>`<option value="${i}" ${i===ST.foco?'selected':''}>${esc(M.grupos[i][1])}</option>`).join('');
   rodape(); setAba('corrida');
+  carregaLogos().then(L=>{ if(L&&Object.keys(L).length&&ST.aba!=='corrida') render(); });
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(moveP);
 })();
 </script>
 </body>
